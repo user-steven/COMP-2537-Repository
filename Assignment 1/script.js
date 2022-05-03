@@ -29,7 +29,14 @@ function createPokemonCard(pokemon) {
     pokemonCard =
     `<div class='pokemonCard'>
     <div class='imgContainer'><img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}"></div>
-    <h6 class='cardTitle'>${pokemon.name.toUpperCase()}</h5>
+
+    <div class="cardContent">
+    <p class="cardTitle text--medium">${pokemon.name.toUpperCase()}</p>
+    <div class="cardInfo">
+    Info
+    </div>
+    </div>
+    
     </div>`
     pokemonGallery.innerHTML += pokemonCard
 }

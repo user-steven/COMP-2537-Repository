@@ -1,6 +1,17 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
 .cardTitle {
-    text-align: center;
+    /* text-align: center; */
     background-color: aqua;
+}
+
+.cardInfo {
+    /* text-align: right; */
 }
 
 .pokemonCard {
@@ -19,11 +30,7 @@ img {
     /* max-height: 200px; */
 }
 
-body {
-    margin: 0;
-}
-
 #pokemon_gallery {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: 1fr 1fr 1fr;
 }
