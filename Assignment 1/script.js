@@ -32,18 +32,53 @@ function createPokemonCard(pokemon) {
 
     <div class="cardContent">
     <p class="cardTitle text--medium">${pokemon.name.toUpperCase()}</p>
-    <div class="cardInfo">
-    Info
-    </div>
     </div>
     
     </div>`
     pokemonGallery.innerHTML += pokemonCard
 }
 
-function setup() {
-    getRandomNinePokemon()
+function searchPokemon(pokemon) {
+
 }
 
+function searchType(type) {
+
+}
+
+function searchGender(gender) {
+
+}
+
+function result() {
+    let searchType = document.querySelector("#searchType").value
+    let input = document.querySelector("#searchBox").value
+
+    if (!isNaN(input))
+        return alert("Please enter letters only.")
+    else {
+        input = input.trim().toLowerCase()
+    }
+
+    if (searchType == "pokemon") {
+        return searchPokemon(input)
+    }
+
+    if (searchType == "type") {
+        return searchType(input)
+    }
+
+    if (searchType == "gender") {
+        return searchGender(input)
+    }
+
+    // console.log(input)
+    // console.log(searchType)
+}
+
+function setup() {
+    getRandomNinePokemon()
+    document.getElementById("searchBoxSubmit").addEventListener("click", result)
+}
 
 jQuery(document).ready(setup)
