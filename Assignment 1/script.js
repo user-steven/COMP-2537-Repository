@@ -1,3 +1,5 @@
+var historyId = 0
+
 function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
@@ -69,7 +71,8 @@ async function searchByAbility(ability) {
 function result() {
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
-
+    document.getElementById("history").innerHTML += `<span id="${historyId}">${searchType} ${input}<button>search</button><button class="removeSearch">remove</button><br></span>`
+    historyId++
     if (!isNaN(input))
         return alert("Please enter a valid search term. (letters only)")
     else {
@@ -98,9 +101,14 @@ function result() {
 //         gallery.innerHTML += "<h6>Nothing Found</h6>"
 // }
 
+function removeHistory() {
+    $(this).parent().remove()
+}
+
 function setup() {
     getRandomNinePokemon()
     document.getElementById("searchBoxSubmit").addEventListener("click", result)
+    $('#history').on("click", ".removeSearch", removeHistory)
 }
 
 jQuery(document).ready(setup)
