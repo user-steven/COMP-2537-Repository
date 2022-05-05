@@ -20,7 +20,7 @@ function getRandomNinePokemon() {
 async function getPokemon(url) {
     let res = await fetch(url)
     let pokemon = await res.json()
-    // console.log(pokemon)
+    // console.log(Promise.reject(error))
     createPokemonCard(pokemon)
 }
 
@@ -38,37 +38,32 @@ function createPokemonCard(pokemon) {
     pokemonGallery.innerHTML += pokemonCard
 }
 
-function searchPokemon(pokemon) {
+function searchByPokemon(pokemon) {
     $('#pokemon_gallery').empty()
     getPokemon(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
 }
 
 async function searchByType(type) {
-    let res = await fetch("https://pokeapi.co/api/v2/type")
+    let res = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
     let typeResult = await res.json()
-    let typeUrl = null
-    // return (typeResult.results[0].name)
 
-    
-    for (i=0; i < typeResult.count; i++) {
-        if (type == typeResult.results[0].name)
-            typeUrl = typeResult.results[0].url
-    }
-
-    if (typeUrl == null)
-        return alert(`No type ${type} found. Try again.`)
-    
     $('#pokemon_gallery').empty()
-    let resFinal = await fetch(typeUrl)
-    let typeFinal = await resFinal.json()
 
-    for (i=0; i < typeFinal.pokemon.length; i++) {
-        getPokemon(typeFinal.pokemon[i].pokemon.url)
+    for (i=0; i < typeResult.pokemon.length; i++) {
+        getPokemon(typeResult.pokemon[i].pokemon.url)
     }
+
 }
 
-function searchGender(gender) {
+async function searchByAbility(ability) {
+    let res = await fetch(`https://pokeapi.co/api/v2/ability/${ability}`)
+    let abilityResult = await res.json()
 
+    $('#pokemon_gallery').empty()
+
+    for (i=0; i < abilityResult.pokemon.length; i++) {
+        getPokemon(abilityResult.pokemon[i].pokemon.url)
+    }
 }
 
 function result() {
@@ -82,20 +77,26 @@ function result() {
     }
 
     if (searchType == "pokemon") {
-        return searchPokemon(input)
+        return searchByPokemon(input)
     }
 
     if (searchType == "type") {
         return searchByType(input)
     }
 
-    if (searchType == "gender") {
-        return searchGender(input)
+    if (searchType == "ability") {
+        return searchByAbility(input)
     }
 
     // console.log(input)
     // console.log(searchType)
 }
+
+// function checkPokemonGallery() {
+//     let gallery = document.getElementById('pokemon_gallery')
+//     if (gallery.textContent.trim() === '')
+//         gallery.innerHTML += "<h6>Nothing Found</h6>"
+// }
 
 function setup() {
     getRandomNinePokemon()
