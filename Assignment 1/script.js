@@ -17,9 +17,9 @@ function getRandomNinePokemon() {
     })
 }
 
-const getPokemon = async url => {
-    const res = await fetch(url)
-    const pokemon = await res.json()
+async function getPokemon(url) {
+    let res = await fetch(url)
+    let pokemon = await res.json()
     // console.log(pokemon)
     createPokemonCard(pokemon)
 }
@@ -39,11 +39,32 @@ function createPokemonCard(pokemon) {
 }
 
 function searchPokemon(pokemon) {
-
+    $('#pokemon_gallery').empty()
+    getPokemon(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
 }
 
-function searchType(type) {
+async function searchByType(type) {
+    let res = await fetch("https://pokeapi.co/api/v2/type")
+    let typeResult = await res.json()
+    let typeUrl = null
+    // return (typeResult.results[0].name)
 
+    
+    for (i=0; i < typeResult.count; i++) {
+        if (type == typeResult.results[0].name)
+            typeUrl = typeResult.results[0].url
+    }
+
+    if (typeUrl == null)
+        return alert(`No type ${type} found. Try again.`)
+    
+    $('#pokemon_gallery').empty()
+    let resFinal = await fetch(typeUrl)
+    let typeFinal = await resFinal.json()
+
+    for (i=0; i < typeFinal.pokemon.length; i++) {
+        getPokemon(typeFinal.pokemon[i].pokemon.url)
+    }
 }
 
 function searchGender(gender) {
@@ -55,7 +76,7 @@ function result() {
     let input = document.querySelector("#searchBox").value
 
     if (!isNaN(input))
-        return alert("Please enter letters only.")
+        return alert("Please enter a valid search term. (letters only)")
     else {
         input = input.trim().toLowerCase()
     }
@@ -65,7 +86,7 @@ function result() {
     }
 
     if (searchType == "type") {
-        return searchType(input)
+        return searchByType(input)
     }
 
     if (searchType == "gender") {
