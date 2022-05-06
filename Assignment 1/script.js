@@ -69,9 +69,10 @@ async function searchByAbility(ability) {
 }
 
 function result() {
+    $("#clearHistory").show()
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
-    document.getElementById("history").innerHTML += `<span id="${historyId}">${searchType} ${input}<button>search</button><button class="removeSearch">remove</button><br></span>`
+    document.getElementById("history").innerHTML += `<span id="${historyId}">${searchType} ${input}<button class="searchHistory"> search</button><button class="removeSearch"> remove</button><br></span>`
     historyId++
     if (!isNaN(input))
         return alert("Please enter a valid search term. (letters only)")
@@ -105,10 +106,36 @@ function removeHistory() {
     $(this).parent().remove()
 }
 
+function searchHistory() {
+    let searchTerms = $(this).parent().text().split(" ")
+    // console.log(searchTerms)
+    let searchType = searchTerms[0]
+    let input = searchTerms[1]
+
+    if (searchType == "pokemon") {
+        return searchByPokemon(input)
+    }
+
+    if (searchType == "type") {
+        return searchByType(input)
+    }
+
+    if (searchType == "ability") {
+        return searchByAbility(input)
+    }
+}
+
+function clearHistory() {
+    $("#history").empty()
+}
+
 function setup() {
     getRandomNinePokemon()
     document.getElementById("searchBoxSubmit").addEventListener("click", result)
+    document.getElementById("clearHistory").addEventListener("click", clearHistory)
+    $("#clearHistory").hide()
     $('#history').on("click", ".removeSearch", removeHistory)
+    $('#history').on("click", ".searchHistory", searchHistory)
 }
 
 jQuery(document).ready(setup)
