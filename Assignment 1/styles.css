@@ -6,6 +6,15 @@
     list-style: none;
 }
 
+body {
+    background-image: url(./images/gradient.jpg);
+    background-size: cover;
+}
+
+footer {
+    padding: 60px 0;
+}
+
 main {
     padding: 60px 60px;
 }
@@ -28,6 +37,7 @@ img {
 }
 
 .pokemonCard {
+    box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.5);
     border-style: solid;
     border-color: black;
     border-radius: 25px;
@@ -35,6 +45,15 @@ img {
 
 .cardTitle {
     text-align: center;
+}
+
+#historyContainer {
+    padding-left: 5%;
+}
+
+.pokemonCardButton {
+    border: none !important;
+    background: transparent;
 }
 
 @media screen {
