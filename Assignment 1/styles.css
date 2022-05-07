@@ -29,7 +29,7 @@ img {
     /* max-height: 200px; */
 }
 
-#pokemon_gallery {
+#pokemonGallery {
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(3, 1fr);
@@ -63,13 +63,13 @@ img {
         }
     }
     @media (max-width: 780px){
-        #pokemon_gallery {
+        #pokemonGallery {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @media (max-width: 520px) {
-        #pokemon_gallery {
+        #pokemonGallery {
             grid-template-columns: 1fr;
         }
     }
