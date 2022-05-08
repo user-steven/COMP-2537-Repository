@@ -234,9 +234,13 @@ function showPages(size, cardsPerPage) {
     if (size > cardsPerPage) {
         paginate(size, cardsPerPage)
         $("#pagination").show()
+        document.getElementById('currentPage').textContent = `Current Page: ${currentPage}`
+        $("#currentPage").show()
     }
-    else
+    else {
         $("#pagination").hide()
+        $("#currentPage").hide()
+    }
 }
 
 function resetPagination() {
@@ -245,6 +249,7 @@ function resetPagination() {
     currentPage = 1
     numOfPages = null
     $("#pagination").hide()
+    $("#currentPage").hide()
 }
 
 function paginate(size, cardsPerPage) {
@@ -298,6 +303,7 @@ function moveToPage() {
         currentPage = parseInt($(this).text())
         populatePage(currentPage, listOfPokemonUrls)
     }
+    document.getElementById('currentPage').textContent = `Current Page: ${currentPage}`
 }
 
 function setup() {
@@ -306,6 +312,7 @@ function setup() {
     document.getElementById("clearHistory").addEventListener("click", clearHistory)
     $("#historyContainer").hide()
     $("#pagination").hide()
+    $("#currentPage").hide()
     $('#history').on("click", ".removeSearch", removeHistory)
     $('#history').on("click", ".searchHistory", searchHistory)
     $("#pagination").on("click", ".pageButton", moveToPage)
