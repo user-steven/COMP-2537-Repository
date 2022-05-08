@@ -88,15 +88,22 @@ async function searchByAbility(ability) {
     }
 }
 
+function searchTermValidation(searchTerm) {
+    var letters = /^[A-Za-z\s\-]*$/
+    console.log(letters.test(searchTerm))
+    return letters.test(searchTerm)
+}
+
 function result() {
     $("#historyContainer").show()
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
-    document.getElementById("history").innerHTML += `<span>Type: ${searchType} Input: ${input}<button class="searchHistory styledButton"> search</button><button class="removeSearch styledButton"> remove</button><br></span>`
-    if (!isNaN(input))
-        return alert("Please enter a valid search term. (letters only)")
+    // if (!isNaN(input))
+    if (!searchTermValidation(input))
+        return alert("Please enter a valid search term. [letters, spaces, -] only!")
     else {
         input = input.trim().toLowerCase().replaceAll(' ', '-')
+        document.getElementById("history").innerHTML += `<span>Type: ${searchType} Input: ${input}<button class="searchHistory styledButton"> search</button><button class="removeSearch styledButton"> remove</button><br></span>`
     }
 
     if (searchType == "pokemon") {
@@ -127,7 +134,7 @@ function removeHistory() {
 
 function searchHistory() {
     let searchTerms = $(this).parent().text().split(" ")
-    // console.log(searchTerms)
+    console.log(searchTerms)
     let searchType = searchTerms[1]
     let input = searchTerms[3].trim().toLowerCase().replaceAll(' ', '-')
 
