@@ -59,7 +59,7 @@ function createPokemonCard(pokemon) {
     <div class='imgContainer'><img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}"></div>
 
     <div class="cardContent">
-    <p class="cardTitle text--medium">${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
+    <p class="cardTitle">${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
     </div>
     
     </div></button>`
@@ -166,6 +166,12 @@ function findStat(pokemon, stat) {
     return stat[0]
 }
 
+function appendType(array_) {
+    array_.forEach((item) => {
+        document.querySelector(".types").innerHTML += (`<span>${item.type.name[0].toUpperCase() + item.type.name.slice(1)}</span>`)
+    })
+}
+
 async function generatePokemonProfile(id) {
     console.log(id)
     let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -174,7 +180,7 @@ async function generatePokemonProfile(id) {
     $("#pokemonProfile").empty()
     let hp = findStat(pokemon, "hp")
     let imgSource = pokemon.sprites.other["official-artwork"].front_default
-    let pokemonName = pokemon.name
+    let pokemonName = pokemon.name[0].toUpperCase() + pokemon.name.slice(1)
     let statAttack = findStat(pokemon, "attack")
     let statDefense = findStat(pokemon, "defense")
     let statSpeed = findStat(pokemon, "speed")
@@ -184,18 +190,22 @@ async function generatePokemonProfile(id) {
     let pokemonProfile = document.getElementById('pokemonProfile')
     pokemonProfile.style.background = backgroundColor
     pokemonProfile.innerHTML += `
-    <span class="pokemonProfileClose">X</span>
-    <p class="hp"><span>HP</span>${hp}</p>
-    <img src=${imgSource}>
-    <h2 class="poke-name">${pokemonName}</h2>
-    <div class="types"></div>
-    <div class="stats"><div>
-    <h3>${statAttack}</h3><p>Attack</p></div><div><h3>${statDefense}</h3><p>Defense</p></div><div><h3>${statSpeed}</h3><p>Speed</p></div></div>`
+    <span class="pokemonProfileClose">&times;</span>
+    <div><img src=${imgSource}></div>
+    <p id="hp"><span>HP </span>${hp}</p>
+    <h2 class="cardTitle">${pokemonName}</h2>
+    <h3 class="types"></h3><p>Type(s)</p>
+    <h3>${statAttack}</h3><p>Attack</p>
+    <h3>${statDefense}</h3><p>Defense</p>
+    <h3>${statSpeed}</h3><p>Speed</p>`
+    appendType(pokemon.types)
     let pokemonProfileClose = document.querySelector('.pokemonProfileClose')
     pokemonProfileContainer.classList.add('pokemonProfileActive')
     pokemonProfileClose.addEventListener("click", function() {
         pokemonProfileContainer.classList.remove('pokemonProfileActive')
     })
+
+
 }
 
 function clearHistory() {
@@ -221,4 +231,4 @@ async function setup() {
     triggerSearch()
 }
 
-jQuery(document).ready(setup)
+$(document).ready(setup)
