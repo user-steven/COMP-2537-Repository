@@ -25,31 +25,39 @@
         <h1 class="mainTitle">Pokedex</h1>
     </header>
     <nav>
-        <a href="assignment_1.html">Home</a>
-        <div id="searchBar">
-            <select id="searchType" name="selection">
-                <option value="pokemon" selected>Pokemon</option>
-                <option value="type">Type</option>
-                <option value="ability">Ability</option>
-            </select>
-            <label for="searchBox">Search</label>
-            <input type="text" id="searchBox">
-            <button type="submit" id="searchBoxSubmit">Submit</button>
-        </div>
+        <ul class="navList">
+            <li class="navItem"><a href="./assignment_1.html">Home</a></li>
+            <li class="navItem">
+                <div id="searchBar">
+                    <select id="searchType" name="selection">
+                        <option value="pokemon" selected>Pokemon</option>
+                        <option value="type">Type</option>
+                        <option value="ability">Ability</option>
+                    </select>
+                    <label for="searchBox">Search</label>
+                    <input type="text" id="searchBox">
+                    <button type="submit" id="searchBoxSubmit" class="styledButton">Submit</button>
+                </div>
+            </li>
+        </ul>
     </nav>
     <main>
+        
         <div id="historyContainer">
-            <h2>History<button type="button" id="clearHistory">Clear</button></h2>
+            <h2>History<button type="button" id="clearHistory" class="styledButton">Clear</button></h2>
             <div id="history">
             </div>
         </div>
 
-        <section id="pokemonGallery">
-        </section>
+        <section id="pokemonGallery"></section>
 
-        <div id="pokemonPro"
+        <div id="pokemonProfileContainer">
+            <div id="pokemonProfile"></div>
+        </div>
     </main>
-    <footer><h3 class="mainTitle">Copyright Steven Chow</h3></footer>
+    <footer>
+        <h3 class="mainTitle">Copyright Steven Chow</h3>
+    </footer>
 
 </body>
 

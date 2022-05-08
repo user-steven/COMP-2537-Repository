@@ -11,6 +11,54 @@ body {
     background-size: cover;
 }
 
+.navList {
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.navItem {
+    list-style: none;
+    margin-left: 2rem;
+}
+
+.navItem a {
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.navItem a:hover {
+    background: white;
+}
+
+.navItem:last-child {
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+.styledButton {
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    margin: 4px 2px;
+    padding: 5px;
+}
+
+#searchType {
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
 footer {
     padding: 60px 0;
 }
@@ -38,13 +86,13 @@ img {
 
 .pokemonCard {
     box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.5);
-    border-style: solid;
-    border-color: black;
     border-radius: 25px;
+    cursor: pointer;
 }
 
 .cardTitle {
     text-align: center;
+    font-size: large;
 }
 
 #historyContainer {
@@ -56,13 +104,47 @@ img {
     background: transparent;
 }
 
+#pokemonProfileContainer {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0 ,0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+.pokemonProfileActive {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#pokemonProfile {
+    background: white;
+    position: relative;
+}
+
+.pokemonProfileClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+
 @media screen {
     @media (min-width: 1280px) {
         img {
             max-width: 400px;
         }
     }
-    @media (max-width: 780px){
+
+    @media (max-width: 780px) {
         #pokemonGallery {
             grid-template-columns: repeat(2, 1fr);
         }
@@ -71,6 +153,15 @@ img {
     @media (max-width: 520px) {
         #pokemonGallery {
             grid-template-columns: 1fr;
+        }
+
+        .navList {
+            display: block;
+        }
+
+        .navItem:last-child {
+            margin-left: 2rem;
+            margin-right: auto;
         }
     }
 

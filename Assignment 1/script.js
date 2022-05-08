@@ -1,22 +1,22 @@
 const colors = {
-	normal: '#A8A77A',
-	fire: '#EE8130',
-	water: '#6390F0',
-	electric: '#F7D02C',
-	grass: '#7AC74C',
-	ice: '#96D9D6',
-	fighting: '#C22E28',
-	poison: '#A33EA1',
-	ground: '#E2BF65',
-	flying: '#A98FF3',
-	psychic: '#F95587',
-	bug: '#A6B91A',
-	rock: '#B6A136',
-	ghost: '#735797',
-	dragon: '#6F35FC',
-	dark: '#705746',
-	steel: '#B7B7CE',
-	fairy: '#D685AD',
+    normal: '#A8A77A',
+    fire: '#EE8130',
+    water: '#6390F0',
+    electric: '#F7D02C',
+    grass: '#7AC74C',
+    ice: '#96D9D6',
+    fighting: '#C22E28',
+    poison: '#A33EA1',
+    ground: '#E2BF65',
+    flying: '#A98FF3',
+    psychic: '#F95587',
+    bug: '#A6B91A',
+    rock: '#B6A136',
+    ghost: '#735797',
+    dragon: '#6F35FC',
+    dark: '#705746',
+    steel: '#B7B7CE',
+    fairy: '#D685AD',
 }
 
 function getRandomInteger(min, max) {
@@ -45,19 +45,15 @@ async function getPokemon(url) {
     createPokemonCard(pokemon)
 }
 
-function clicked() {
-    console.log("clicked")
-}
-
 function createPokemonCard(pokemon) {
     let pokemonGallery = document.getElementById('pokemonGallery')
     let backgroundColor = colors[pokemon.types[0].type.name]
     pokemonCard =
-    `<button id="${pokemon.id}" class="pokemonCardButton" onclick="generatePokemonProfile(this.id)"><div class='pokemonCard' style="background-color: ${backgroundColor};">
+        `<button id="${pokemon.id}" class="pokemonCardButton" onclick="generatePokemonProfile(this.id)"><div class='pokemonCard' style="background: ${backgroundColor};">
     <div class='imgContainer'><img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}"></div>
 
     <div class="cardContent">
-    <p class="cardTitle text--medium">${pokemon.name.toUpperCase()}</p>
+    <p class="cardTitle text--medium">${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
     </div>
     
     </div></button>`
@@ -75,7 +71,7 @@ async function searchByType(type) {
 
     $('#pokemonGallery').empty()
 
-    for (i=0; i < typeResult.pokemon.length; i++) {
+    for (i = 0; i < typeResult.pokemon.length; i++) {
         getPokemon(typeResult.pokemon[i].pokemon.url)
     }
 
@@ -87,7 +83,7 @@ async function searchByAbility(ability) {
 
     $('#pokemonGallery').empty()
 
-    for (i=0; i < abilityResult.pokemon.length; i++) {
+    for (i = 0; i < abilityResult.pokemon.length; i++) {
         getPokemon(abilityResult.pokemon[i].pokemon.url)
     }
 }
@@ -96,7 +92,7 @@ function result() {
     $("#historyContainer").show()
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
-    document.getElementById("history").innerHTML += `<span>${searchType} ${input}<button class="searchHistory"> search</button><button class="removeSearch"> remove</button><br></span>`
+    document.getElementById("history").innerHTML += `<span>Type: ${searchType} Input: ${input}<button class="searchHistory styledButton"> search</button><button class="removeSearch styledButton"> remove</button><br></span>`
     if (!isNaN(input))
         return alert("Please enter a valid search term. (letters only)")
     else {
@@ -132,8 +128,8 @@ function removeHistory() {
 function searchHistory() {
     let searchTerms = $(this).parent().text().split(" ")
     // console.log(searchTerms)
-    let searchType = searchTerms[0]
-    let input = searchTerms[1].trim().toLowerCase().replaceAll(' ', '-')
+    let searchType = searchTerms[1]
+    let input = searchTerms[3].trim().toLowerCase().replaceAll(' ', '-')
 
     if (searchType == "pokemon") {
         return searchByPokemon(input)
@@ -148,11 +144,43 @@ function searchHistory() {
     }
 }
 
+function findStat(pokemon, stat) {
+    stat = pokemon.stats.filter((obj_)=>{
+        return obj_.stat.name == stat
+    }).map((obj__)=>{
+        return obj__.base_stat
+    })
+    return stat[0]
+}
+
 async function generatePokemonProfile(id) {
-    console.log(typeof(id))
+    console.log(id)
     let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     let pokemon = await res.json()
     console.log(pokemon)
+    $("#pokemonProfile").empty()
+    let hp = findStat(pokemon, "hp")
+    let imgSource = pokemon.sprites.other["official-artwork"].front_default
+    let pokemonName = pokemon.name
+    let statAttack = findStat(pokemon, "attack")
+    let statDefense = findStat(pokemon, "defense")
+    let statSpeed = findStat(pokemon, "speed")
+    // console.log(`${pokemonName}\n${hp}\n${imgSource}\n${statAttack}\n${statDefense}\n${statSpeed}`)
+    let pokemonProfileContainer = document.getElementById('pokemonProfileContainer')
+    let pokemonProfile = document.getElementById('pokemonProfile')
+    pokemonProfile.innerHTML += `
+    <span class="pokemonProfileClose">X</span>
+    <p class="hp"><span>HP</span>${hp}</p>
+    <img src=${imgSource}>
+    <h2 class="poke-name">${pokemonName}</h2>
+    <div class="types"></div>
+    <div class="stats"><div>
+    <h3>${statAttack}</h3><p>Attack</p></div><div><h3>${statDefense}</h3><p>Defense</p></div><div><h3>${statSpeed}</h3><p>Speed</p></div></div>`
+    let pokemonProfileClose = document.querySelector('.pokemonProfileClose')
+    pokemonProfileContainer.classList.add('pokemonProfileActive')
+    pokemonProfileClose.addEventListener("click", function() {
+        pokemonProfileContainer.classList.remove('pokemonProfileActive')
+    })
 }
 
 function clearHistory() {
