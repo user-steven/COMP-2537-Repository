@@ -142,7 +142,13 @@ img {
 }
 
 #hp {
-    float: right;
+    position: absolute;
+    right: 20px;
+}
+
+.types {
+    display: flex;
+    gap: 15px;
 }
 
 .pokemonProfileClose {
