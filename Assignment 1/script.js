@@ -1,4 +1,4 @@
-const colors = {
+const COLORS = {
     normal: '#A8A77A',
     fire: '#EE8130',
     water: '#6390F0',
@@ -48,7 +48,7 @@ async function getPokemon(url) {
 
 
 function generateBackgroundColor(pokemon) {
-    return colors[pokemon.types[0].type.name]
+    return COLORS[pokemon.types[0].type.name]
 }
 
 
