@@ -26,6 +26,7 @@ header {
 .navItem {
     list-style: none;
     margin-left: 2rem;
+    padding: 0.5rem 0;
 }
 
 .navItem a {
@@ -33,6 +34,10 @@ header {
     color: black;
     padding: 5px;
     border-radius: 8px;
+}
+
+.navItem #randomize {
+    cursor: pointer;
 }
 
 .navItem a:hover {
@@ -175,6 +180,21 @@ img {
         #pokemonGallery {
             grid-template-columns: repeat(2, 1fr);
         }
+        
+        .navList {
+            display: block;
+        }
+
+        .navItem a {
+            display: block;
+            text-align: center;
+            margin-right: 2rem;
+            padding: 10px 0;
+        }
+
+        .navItem:last-child {
+            float: right;
+        }
     }
 
     @media (max-width: 520px) {
@@ -186,9 +206,16 @@ img {
             display: block;
         }
 
+        .navItem a {
+            display: block;
+            text-align: center;
+            margin-right: 2rem;
+            padding: 10px 0;
+        }
+
         .navItem:last-child {
-            margin-left: 2rem;
-            margin-right: auto;
+            margin: 0;
+            float: right;
         }
     }
 
