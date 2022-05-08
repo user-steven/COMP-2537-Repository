@@ -19,6 +19,11 @@ const COLORS = {
     fairy: '#D685AD',
 }
 
+const cardsPerPage = 9
+var listOfPokemonUrls = []
+var currentPage = 1
+var numOfPages = null
+
 function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
@@ -33,6 +38,7 @@ function generateRandomSet(number) {
 
 function getRandomNinePokemon() {
     $('#pokemonGallery').empty()
+    resetPagination()
     let randomPokemonId = generateRandomSet(9)
     randomPokemonId.forEach(id => {
         getPokemon(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -76,37 +82,41 @@ async function searchByType(type) {
     let res = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
     let typeResult = await res.json()
 
-    $('#pokemonGallery').empty()
+    showPages(typeResult.pokemon.length, cardsPerPage)
 
     for (i = 0; i < typeResult.pokemon.length; i++) {
-        getPokemon(typeResult.pokemon[i].pokemon.url)
+        listOfPokemonUrls.push(typeResult.pokemon[i].pokemon.url)
     }
 
+    populatePage(currentPage, listOfPokemonUrls)
 }
 
 async function searchByAbility(ability) {
     let res = await fetch(`https://pokeapi.co/api/v2/ability/${ability}`)
     let abilityResult = await res.json()
 
-    $('#pokemonGallery').empty()
+    showPages(abilityResult.pokemon.length, cardsPerPage)
 
     for (i = 0; i < abilityResult.pokemon.length; i++) {
-        getPokemon(abilityResult.pokemon[i].pokemon.url)
+        listOfPokemonUrls.push(abilityResult.pokemon[i].pokemon.url)
     }
+
+    populatePage(currentPage, listOfPokemonUrls)
 }
 
 function searchTermValidation(searchTerm) {
     var letters = /^[A-Za-z\s\-]*$/
-    console.log(letters.test(searchTerm))
+    // console.log(letters.test(searchTerm))
     return letters.test(searchTerm)
 }
 
 function result() {
     $("#historyContainer").show()
+    resetPagination()
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
     // if (!isNaN(input))
-    if (!searchTermValidation(input))
+    if (!searchTermValidation(input) || input == "")
         return alert("Please enter a valid search term. [letters, spaces, -] only!")
     else {
         input = input.trim().toLowerCase().replaceAll(' ', '-')
@@ -124,7 +134,6 @@ function result() {
     if (searchType == "ability") {
         return searchByAbility(input)
     }
-
     // console.log(input)
     // console.log(searchType)
 }
@@ -140,8 +149,9 @@ function removeHistory() {
 }
 
 function searchHistory() {
+    resetPagination()
     let searchTerms = $(this).parent().text().split(" ")
-    console.log(searchTerms)
+    // console.log(searchTerms)
     let searchType = searchTerms[1]
     let input = searchTerms[3].trim().toLowerCase().replaceAll(' ', '-')
 
@@ -159,9 +169,9 @@ function searchHistory() {
 }
 
 function findStat(pokemon, stat) {
-    stat = pokemon.stats.filter((obj_)=>{
+    stat = pokemon.stats.filter((obj_) => {
         return obj_.stat.name == stat
-    }).map((obj__)=>{
+    }).map((obj__) => {
         return obj__.base_stat
     })
     return stat[0]
@@ -202,11 +212,9 @@ async function generatePokemonProfile(id) {
     appendType(pokemon.types)
     let pokemonProfileClose = document.querySelector('.pokemonProfileClose')
     pokemonProfileContainer.classList.add('pokemonProfileActive')
-    pokemonProfileClose.addEventListener("click", function() {
+    pokemonProfileClose.addEventListener("click", function () {
         pokemonProfileContainer.classList.remove('pokemonProfileActive')
     })
-
-
 }
 
 function clearHistory() {
@@ -215,20 +223,92 @@ function clearHistory() {
 }
 
 function triggerSearch() {
-    document.getElementById('searchBox').addEventListener("keypress", function(event) {
+    document.getElementById('searchBox').addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             document.getElementById("searchBoxSubmit").click()
         }
     })
 }
 
-async function setup() {
+function showPages(size, cardsPerPage) {
+    if (size > cardsPerPage) {
+        paginate(size, cardsPerPage)
+        $("#pagination").show()
+    }
+    else
+        $("#pagination").hide()
+}
+
+function resetPagination() {
+    $("#pagination").empty()
+    listOfPokemonUrls.length = 0
+    currentPage = 1
+    numOfPages = null
+    $("#pagination").hide()
+}
+
+function paginate(size, cardsPerPage) {
+    numOfPages = Math.ceil(size / cardsPerPage)
+    pageDiv = document.getElementById('pagination')
+    pageDiv.innerHTML += "<span>Pages:</span>"
+    pageDiv.innerHTML += "<button class='styledButton pageButton'>First</button>"
+    pageDiv.innerHTML += "<button class='styledButton pageButton'>Prev</button>"
+    for (i = 1; i < numOfPages + 1; i++) {
+        pageDiv.innerHTML += `<button class='styledButton pageButton pageButtonStyle'>${i}</button>`
+    }
+    pageDiv.innerHTML += "<button class='styledButton pageButton'>Next</button>"
+    pageDiv.innerHTML += "<button class='styledButton pageButton'>Last</button>"
+}
+
+function populatePage(currentPage, listOfPokemonUrls) {
+    $('#pokemonGallery').empty()
+    let startIndex = cardsPerPage * (currentPage - 1)
+    let stopIndex = startIndex + cardsPerPage
+    for (i = startIndex; i < stopIndex; i++) {
+        getPokemon(listOfPokemonUrls[i])
+    }
+}
+
+function moveToPage() {
+    if ($(this).text() == "First") {
+        if (currentPage != 1) {
+            currentPage = 1
+            populatePage(currentPage, listOfPokemonUrls)
+        }
+    }
+    else if ($(this).text() == "Last") {
+        if (currentPage != numOfPages) {
+            currentPage = numOfPages
+            populatePage(currentPage, listOfPokemonUrls)
+        }
+    }
+    else if ($(this).text() == "Prev") {
+        if (currentPage > 1) {
+            currentPage -= 1
+            populatePage(currentPage, listOfPokemonUrls)
+        }
+    }
+    else if ($(this).text() == "Next") {
+        if (currentPage < numOfPages) {
+            currentPage += 1
+            populatePage(currentPage, listOfPokemonUrls)
+        }
+    }
+    else {
+        currentPage = parseInt($(this).text())
+        populatePage(currentPage, listOfPokemonUrls)
+    }
+}
+
+function setup() {
     getRandomNinePokemon()
     document.getElementById("searchBoxSubmit").addEventListener("click", result)
     document.getElementById("clearHistory").addEventListener("click", clearHistory)
     $("#historyContainer").hide()
+    $("#pagination").hide()
     $('#history').on("click", ".removeSearch", removeHistory)
     $('#history').on("click", ".searchHistory", searchHistory)
+    $("#pagination").on("click", ".pageButton", moveToPage)
     triggerSearch()
 }
 
