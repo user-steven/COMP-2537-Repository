@@ -317,6 +317,12 @@ function setup() {
     $('#history').on("click", ".searchHistory", searchHistory)
     $("#pagination").on("click", ".pageButton", moveToPage)
     triggerSearch()
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('pokemonProfileContainer')) {
+            document.getElementById('pokemonProfileContainer').classList.remove('pokemonProfileActive');
+        }
+      }
 }
 
 $(document).ready(setup)
