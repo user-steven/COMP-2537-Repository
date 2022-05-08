@@ -45,9 +45,15 @@ async function getPokemon(url) {
     createPokemonCard(pokemon)
 }
 
+
+function generateBackgroundColor(pokemon) {
+    return colors[pokemon.types[0].type.name]
+}
+
+
 function createPokemonCard(pokemon) {
     let pokemonGallery = document.getElementById('pokemonGallery')
-    let backgroundColor = colors[pokemon.types[0].type.name]
+    let backgroundColor = generateBackgroundColor(pokemon)
     pokemonCard =
         `<button type="button" id="${pokemon.id}" class="pokemonCardButton" onclick="generatePokemonProfile(this.id)"><div class='pokemonCard' style="background: ${backgroundColor};">
     <div class='imgContainer'><img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}"></div>
@@ -172,9 +178,11 @@ async function generatePokemonProfile(id) {
     let statAttack = findStat(pokemon, "attack")
     let statDefense = findStat(pokemon, "defense")
     let statSpeed = findStat(pokemon, "speed")
-    // console.log(`${pokemonName}\n${hp}\n${imgSource}\n${statAttack}\n${statDefense}\n${statSpeed}`)
+    let backgroundColor = generateBackgroundColor(pokemon)
+    // console.log(`${pokemonName}\n${hp}\n${imgSource}\n${statAttack}\n${statDefense}\n${statSpeed}\n${backgroundColor}`)
     let pokemonProfileContainer = document.getElementById('pokemonProfileContainer')
     let pokemonProfile = document.getElementById('pokemonProfile')
+    pokemonProfile.style.background = backgroundColor
     pokemonProfile.innerHTML += `
     <span class="pokemonProfileClose">X</span>
     <p class="hp"><span>HP</span>${hp}</p>
