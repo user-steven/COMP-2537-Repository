@@ -189,7 +189,7 @@ img {
             grid-template-columns: repeat(2, 1fr);
         }
         
-        .navList {
+        /* .navList {
             display: block;
         }
 
@@ -202,6 +202,13 @@ img {
 
         .navItem:last-child {
             float: right;
+        } */
+        .navList {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .navItem:last-child {
+            margin: 0;
         }
     }
 
@@ -211,6 +218,15 @@ img {
         }
 
         .navList {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .navItem:last-child {
+            margin: 0;
+        }
+
+        /* .navList {
             display: block;
         }
 
@@ -224,7 +240,7 @@ img {
         .navItem:last-child {
             margin: 0;
             float: right;
-        }
+        } */
     }
 
 }
