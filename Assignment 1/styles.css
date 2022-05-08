@@ -11,6 +11,12 @@ body {
     background-size: cover;
 }
 
+header {
+    letter-spacing: 1rem;
+    padding: 1rem;
+    font-size: x-large;
+}
+
 .navList {
     padding: 1rem 0;
     display: flex;
