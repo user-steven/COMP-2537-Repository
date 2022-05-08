@@ -49,7 +49,7 @@ function createPokemonCard(pokemon) {
     let pokemonGallery = document.getElementById('pokemonGallery')
     let backgroundColor = colors[pokemon.types[0].type.name]
     pokemonCard =
-        `<button id="${pokemon.id}" class="pokemonCardButton" onclick="generatePokemonProfile(this.id)"><div class='pokemonCard' style="background: ${backgroundColor};">
+        `<button type="button" id="${pokemon.id}" class="pokemonCardButton" onclick="generatePokemonProfile(this.id)"><div class='pokemonCard' style="background: ${backgroundColor};">
     <div class='imgContainer'><img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}"></div>
 
     <div class="cardContent">
@@ -103,7 +103,7 @@ function result() {
         return alert("Please enter a valid search term. [letters, spaces, -] only!")
     else {
         input = input.trim().toLowerCase().replaceAll(' ', '-')
-        document.getElementById("history").innerHTML += `<span>Type: ${searchType} Input: ${input}<button class="searchHistory styledButton"> search</button><button class="removeSearch styledButton"> remove</button><br></span>`
+        document.getElementById("history").innerHTML += `<span>Type: ${searchType} Input: ${input}<button type="button" class="searchHistory styledButton"> search</button><button type="button" class="removeSearch styledButton"> remove</button><br></span>`
     }
 
     if (searchType == "pokemon") {
@@ -195,6 +195,14 @@ function clearHistory() {
     $("#historyContainer").hide()
 }
 
+function triggerSearch() {
+    document.getElementById('searchBox').addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            document.getElementById("searchBoxSubmit").click()
+        }
+    })
+}
+
 async function setup() {
     getRandomNinePokemon()
     document.getElementById("searchBoxSubmit").addEventListener("click", result)
@@ -202,6 +210,7 @@ async function setup() {
     $("#historyContainer").hide()
     $('#history').on("click", ".removeSearch", removeHistory)
     $('#history').on("click", ".searchHistory", searchHistory)
+    triggerSearch()
 }
 
 jQuery(document).ready(setup)

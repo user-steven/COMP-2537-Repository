@@ -142,6 +142,10 @@ img {
     cursor: pointer;
 }
 
+#historyContainer {
+    padding-bottom: 60px;
+}
+
 
 @media screen {
     @media (min-width: 1280px) {
