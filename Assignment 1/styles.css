@@ -62,6 +62,18 @@ header {
     padding: 5px;
 }
 
+#pagination {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-top: 60px;
+}
+
+.pageButtonStyle {
+    width: 30px;
+}
+
 #searchType {
     background: white;
     padding: 5px;
@@ -107,7 +119,8 @@ img {
 }
 
 #historyContainer {
-    padding-left: 5%;
+    margin-left: 5%;
+    margin-bottom: 60px;
 }
 
 .pokemonCardButton {
@@ -163,11 +176,6 @@ img {
     cursor: pointer;
     font-size: x-large;
 }
-
-#historyContainer {
-    padding-bottom: 60px;
-}
-
 
 @media screen {
     @media (min-width: 1280px) {
