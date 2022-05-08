@@ -135,11 +135,16 @@ img {
     border-radius: 25px;
 }
 
+#pokemonProfile img{
+    max-width: 100%;
+}
+
 .pokemonProfileClose {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 20px;
     cursor: pointer;
+    font-size: x-large;
 }
 
 #historyContainer {
@@ -149,7 +154,7 @@ img {
 
 @media screen {
     @media (min-width: 1280px) {
-        img {
+        #pokemonGallery img {
             max-width: 400px;
         }
     }
