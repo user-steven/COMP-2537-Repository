@@ -97,17 +97,13 @@ main {
     text-align: center;
 }
 
-
-img {
-    max-width: 200px;
-    /* max-height: 200px; */
-}
-
 #pokemonGallery {
     display: grid;
-    justify-items: center;
+    justify-items: stretch;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 30px;
+    grid-gap: 15px;
+    column-gap: 15px;
+    margin: 0 15%;
 }
 
 .pokemonCard {
@@ -186,16 +182,16 @@ img {
     justify-content: center;
 }
 
-@media screen {
-    @media (min-width: 1280px) {
-        #pokemonGallery img {
-            max-width: 400px;
-        }
-    }
+img {
+    max-width: 200px;
+    /* max-height: 200px; */
+}
 
-    @media (max-width: 780px) {
+@media screen {
+    @media (max-width: 827px) {
         #pokemonGallery {
             grid-template-columns: repeat(2, 1fr);
+            margin: auto;
         }
         
         /* .navList {
@@ -224,6 +220,7 @@ img {
     @media (max-width: 520px) {
         #pokemonGallery {
             grid-template-columns: 1fr;
+            margin: auto;
         }
 
         .navList {
