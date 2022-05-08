@@ -62,6 +62,10 @@ header {
     padding: 5px;
 }
 
+.styledButton:hover {
+    background: #d6f5d6;
+}
+
 #pagination {
     display: flex;
     justify-content: center;
