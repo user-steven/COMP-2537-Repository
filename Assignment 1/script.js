@@ -32,6 +32,7 @@ function generateRandomSet(number) {
 }
 
 function getRandomNinePokemon() {
+    $('#pokemonGallery').empty()
     let randomPokemonId = generateRandomSet(9)
     randomPokemonId.forEach(id => {
         getPokemon(`https://pokeapi.co/api/v2/pokemon/${id}`)
