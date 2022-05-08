@@ -71,7 +71,6 @@ header {
     justify-content: center;
     flex-wrap: wrap;
     align-items: baseline;
-    margin-top: 60px;
 }
 
 .pageButtonStyle {
@@ -179,6 +178,12 @@ img {
     right: 20px;
     cursor: pointer;
     font-size: x-large;
+}
+
+#currentPage {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
 }
 
 @media screen {
