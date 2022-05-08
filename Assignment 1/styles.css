@@ -133,6 +133,8 @@ img {
 #pokemonProfile {
     position: relative;
     border-radius: 25px;
+    padding: 20px;
+    box-shadow: 10px 5px 8px 0 rgba(0, 0 ,0, 0.5);
 }
 
 #pokemonProfile img{
