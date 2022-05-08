@@ -141,6 +141,10 @@ img {
     max-width: 100%;
 }
 
+#hp {
+    float: right;
+}
+
 .pokemonProfileClose {
     position: absolute;
     top: 10px;
