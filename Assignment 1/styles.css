@@ -96,6 +96,7 @@ main {
 
 .mainTitle {
     text-align: center;
+    font-weight: 400;
 }
 
 #pokemonGallery {
@@ -115,7 +116,7 @@ main {
 
 .cardTitle {
     text-align: center;
-    font-size: large;
+    font-size: x-large;
 }
 
 #historyContainer {
@@ -126,6 +127,14 @@ main {
 .pokemonCardButton {
     border: none !important;
     background: transparent;
+}
+
+.types span {
+    padding: 0 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 25px;
 }
 
 #pokemonProfileContainer {
@@ -162,6 +171,13 @@ main {
 #hp {
     position: absolute;
     right: 20px;
+    background-color: white;
+    border-radius: 25px;
+    padding: 5px 10px;
+}
+
+#hp span {
+    font-size: small;
 }
 
 .types {
