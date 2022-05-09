@@ -179,7 +179,9 @@ function findStat(pokemon, stat) {
 
 function appendType(array_) {
     array_.forEach((item) => {
-        document.querySelector(".types").innerHTML += (`<span>${item.type.name[0].toUpperCase() + item.type.name.slice(1)}</span>`)
+        backgroundColor = COLORS[item.type.name]
+        console.l
+        document.querySelector(".types").innerHTML += (`<span style="background: ${backgroundColor};">${item.type.name[0].toUpperCase() + item.type.name.slice(1)}</span>`)
     })
 }
 
@@ -189,6 +191,7 @@ async function generatePokemonProfile(id) {
     let pokemon = await res.json()
     console.log(pokemon)
     $("#pokemonProfile").empty()
+    let id_ = pokemon.id
     let hp = findStat(pokemon, "hp")
     let imgSource = pokemon.sprites.other["official-artwork"].front_default
     let pokemonName = pokemon.name[0].toUpperCase() + pokemon.name.slice(1)
@@ -202,8 +205,9 @@ async function generatePokemonProfile(id) {
     pokemonProfile.style.background = backgroundColor
     pokemonProfile.innerHTML += `
     <span class="pokemonProfileClose">&times;</span>
+    <p>#${id_}</p>
     <div><img src=${imgSource}></div>
-    <p id="hp"><span>HP </span>${hp}</p>
+    <p id="hp"><span><b>HP </b></span>${hp}</p>
     <h2 class="cardTitle">${pokemonName}</h2>
     <h3 class="types"></h3><p>Type(s)</p>
     <h3>${statAttack}</h3><p>Attack</p>
