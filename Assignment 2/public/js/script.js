@@ -181,16 +181,15 @@ function findStat(pokemon, stat) {
 function appendType(array_) {
     array_.forEach((item) => {
         backgroundColor = COLORS[item.type.name]
-        console.l
         document.querySelector(".types").innerHTML += (`<span style="background: ${backgroundColor};">${item.type.name[0].toUpperCase() + item.type.name.slice(1)}</span>`)
     })
 }
 
 async function generatePokemonProfile(id) {
-    console.log(id)
+    // console.log(id)
     let res = await fetch(`https://dry-escarpment-93420.herokuapp.com/pokemon/id/${id}`)
     let pokemon = await res.json()
-    console.log(pokemon)
+    // console.log(pokemon)
     $("#pokemonProfile").empty()
     let id_ = pokemon.id
     let hp = findStat(pokemon, "hp")
