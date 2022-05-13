@@ -315,7 +315,7 @@ function createTimeline(searchType, input) {
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     $.ajax({
-        url: "http://localhost:5100/timeline/insert",
+        url: "https://po-kedex.herokuapp.com/timeline/insert",
         type: "put",
         data: {
             search_event: `Client has searched for "${input}" in "${searchType}"`,

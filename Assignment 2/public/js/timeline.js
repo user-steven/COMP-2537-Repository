@@ -1,6 +1,6 @@
 function loadEvents() {
     $.ajax({
-        url: "http://localhost:5100/timeline/getAllEvents",
+        url: "https://po-kedex.herokuapp.com/timeline/getAllEvents",
         type: "get",
         success: (data) => {
             $("main").empty()
@@ -30,7 +30,7 @@ function increaseLike() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
     $.ajax({
-        url:`http://localhost:5100/timeline/update/${timelineId}`,
+        url:`https://po-kedex.herokuapp.com/timeline/update/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
@@ -41,7 +41,7 @@ function deletePost() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
     $.ajax({
-        url:`http://localhost:5100/timeline/delete/${timelineId}`,
+        url:`https://po-kedex.herokuapp.com/timeline/delete/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
