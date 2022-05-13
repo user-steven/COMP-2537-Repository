@@ -41,7 +41,7 @@ function getRandomNinePokemon() {
     resetPagination()
     let randomPokemonId = generateRandomSet(9)
     randomPokemonId.forEach(id => {
-        getPokemon(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        getPokemon(`https://dry-escarpment-93420.herokuapp.com/pokemon/id/${id}`)
     })
 }
 
@@ -75,11 +75,11 @@ function createPokemonCard(pokemon) {
 
 function searchByPokemon(pokemon) {
     $('#pokemonGallery').empty()
-    getPokemon(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    getPokemon(`https://dry-escarpment-93420.herokuapp.com/pokemon/name/${pokemon}`)
 }
 
 async function searchByType(type) {
-    let res = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
+    let res = await fetch(`https://dry-escarpment-93420.herokuapp.com/type/${type}`)
     let typeResult = await res.json()
 
     showPages(typeResult.pokemon.length, cardsPerPage)
@@ -92,7 +92,7 @@ async function searchByType(type) {
 }
 
 async function searchByAbility(ability) {
-    let res = await fetch(`https://pokeapi.co/api/v2/ability/${ability}`)
+    let res = await fetch(`https://dry-escarpment-93420.herokuapp.com/ability/${ability}`)
     let abilityResult = await res.json()
 
     showPages(abilityResult.pokemon.length, cardsPerPage)
@@ -188,7 +188,7 @@ function appendType(array_) {
 
 async function generatePokemonProfile(id) {
     console.log(id)
-    let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    let res = await fetch(`https://dry-escarpment-93420.herokuapp.com/pokemon/id/${id}`)
     let pokemon = await res.json()
     console.log(pokemon)
     $("#pokemonProfile").empty()
