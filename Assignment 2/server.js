@@ -57,8 +57,8 @@ app.get("/timeline", (req, res) =>{
         time_event: req.body.time_event,
         like_counter: req.body.like_counter
     }).then((result) => {
-        console.log(result)
-        res.send("Created successfully")
+        // console.log(result)
+        res.send("Client search has been logged successfully")
     }).catch((err) =>{
         console.log(err)
     })
@@ -71,8 +71,8 @@ app.get('/timeline/update/:id', (req, res) =>{
     }, {
         $inc: {like_counter: 1}
     }).then((result) =>{
-        console.log(result)
-        res.send("Updated successfully")
+        // console.log(result)
+        res.send("Like counter has incremented successfully")
     }).catch((err) =>{
         console.log(err)
     })
@@ -83,8 +83,8 @@ app.get('/timeline/delete/:id', (req, res) =>{
     timelineModel.remove({
         "_id" : req.params.id
     }).then((result) =>{
-        console.log(result)
-        res.send("Deleted successfully")
+        // console.log(result)
+        res.send("Deleted timeline post successfully")
     }).catch((err) =>{
         console.log(err)
     })
