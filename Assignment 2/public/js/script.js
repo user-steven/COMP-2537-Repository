@@ -115,7 +115,7 @@ function result() {
     resetPagination()
     let searchType = document.querySelector("#searchType").value
     let input = document.querySelector("#searchBox").value
-    createTimeline(searchType, input)
+    searchTimeline(searchType, input)
     // if (!isNaN(input))
     if (!searchTermValidation(input) || input == "")
         return alert("Please enter a valid search term. [letters, spaces, -] only!")
@@ -202,6 +202,9 @@ async function generatePokemonProfile(id) {
     // console.log(`${pokemonName}\n${hp}\n${imgSource}\n${statAttack}\n${statDefense}\n${statSpeed}\n${backgroundColor}`)
     let pokemonProfileContainer = document.getElementById('pokemonProfileContainer')
     let pokemonProfile = document.getElementById('pokemonProfile')
+
+    profileTimeline(id_, pokemonName)
+
     pokemonProfile.style.background = backgroundColor
     pokemonProfile.innerHTML += `
     <span class="pokemonProfileClose">&times;</span>
@@ -310,7 +313,7 @@ function moveToPage() {
     document.getElementById('currentPage').textContent = `Current Page: ${currentPage}`
 }
 
-function createTimeline(searchType, input) {
+function searchTimeline(searchType, input) {
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
@@ -318,9 +321,25 @@ function createTimeline(searchType, input) {
         url: "https://po-kedex.herokuapp.com/timeline/insert",
         type: "put",
         data: {
-            search_event: `Client has searched for "${input}" in "${searchType}"`,
+            search_event: `Client has searched for <b>${input}</b> in <b>${searchType}</b>`,
             time_event: `Client searched on <b>${date}</b> at <b>${time}</b>`,
             like_counter: 0
+        },
+        success: result => console.log(result)
+    })
+}
+
+function profileTimeline(pokemonId, pokemonName) {
+    var today = new Date()
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    $.ajax({
+        url: "https://po-kedex.herokuapp.com/timeline/insert",
+        type: "put",
+        data: {
+            search_event: `Client has clicked on <b>${pokemonName}</b> with ID: <b>${pokemonId}</b>`,
+            time_event: `Client searched on <b>${date}</b> at <b>${time}</b>`,
+            like_counter: 0,
         },
         success: result => console.log(result)
     })
