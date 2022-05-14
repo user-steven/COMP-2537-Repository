@@ -156,6 +156,8 @@ function searchHistory() {
     let searchType = searchTerms[1]
     let input = searchTerms[3].trim().toLowerCase().replaceAll(' ', '-')
 
+    searchTimeline(searchType, input)
+
     if (searchType == "pokemon") {
         return searchByPokemon(input)
     }
