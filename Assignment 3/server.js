@@ -3,9 +3,12 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyparser = require("body-parser")
 const cors = require('cors')
+const bcrypt = require('bcrypt')
+var session = require('express-session')
 
 app.set('view engine', 'ejs')
 
+app.use(session({secret: 'pokemonapp', saveUninitialized: true, resave: true}))
 app.use(express.static('./public'))
 app.use(cors())
 app.use(bodyparser.urlencoded({
@@ -32,9 +35,11 @@ const timelineSchema = new mongoose.Schema({
  })
 
  const userSchema = new mongoose.Schema({
-     email: String,
+     email: {type: String, required: true, unique: true},
      password: String,
-     cart: Array
+     admin: Boolean,
+     cart: Array,
+     orders: Array
  }, {
     versionKey: false
 })
@@ -46,8 +51,54 @@ app.get("/", (req, res) =>{
     res.render(__dirname + "/public/index.ejs")
 })
 
+app.get("/profile", (req, res) =>{
+    if (req.session.authenticated)
+        res.render(__dirname + "/public/profile.ejs")
+    else
+        res.redirect("/login")
+})
+
+
+app.get("/login", (req, res) =>{
+    if (req.session.authenticated)
+        res.redirect("/profile")
+    else
+        res.render(__dirname + "/public/login.ejs")
+})
+
+app.get("/register", (req, res) =>{
+    if (req.session.authenticated)
+        res.redirect("/profile")
+    else
+        res.render(__dirname + "/public/register.ejs")
+})
+
+app.post("/api/register", async (req, res) =>{
+    hash_password = await bcrypt.hash(req.body.password, 1)
+
+    userModel.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash_password,
+        admin: false,
+        cart: [],
+        orders: []
+    }).then((result) =>{
+        res.redirect("/login")
+    }).catch((err) =>{
+        console.log(err)
+        if (err.code == 11000)
+            res.send("User already registered")
+    })
+})
+
+app.post("/api/login", (req, res) =>{
+    
+})
+
 app.get("/timeline", (req, res) =>{
-    res.sendFile(__dirname + "/public/timeline.html")
+    res.render(__dirname + "/public/timeline.ejs")
 })
 
 // read
