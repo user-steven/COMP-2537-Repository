@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCIT Pokedex</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="./js/script.js"></script>
+
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="mainTitle">POKÉDEX</h1>
+    </header>
+    <nav>
+        <ul class="navList">
+            <li class="navItem">
+                <div id="searchBar">
+                    <select id="searchType" name="selection">
+                        <option value="pokemon" selected>Pokemon</option>
+                        <option value="type">Type</option>
+                        <option value="ability">Ability</option>
+                    </select>
+                    <label for="searchBox">Search</label>
+                    <input type="text" id="searchBox">
+                    <button type="submit" id="searchBoxSubmit" class="styledButton">Submit</button>
+                </div>
+            </li>
+            <li class="navItem">
+                <a href="/">Home</a>
+                <a id="randomize" onclick="getRandomNinePokemon()">Randomize</a>
+                <a href="/timeline">Timeline</a>
+            </li>
+
+        </ul>
+    </nav>
+    <main>
+
+        <div id="historyContainer">
+            <h2>History<button type="button" id="clearHistory" class="styledButton">Clear</button></h2>
+            <div id="history">
+            </div>
+        </div>
+
+        <section id="pokemonGallery"></section>
+
+        <div id="currentPage"></div>
+
+        <div id="pagination"></div>
+
+        <div id="pokemonProfileContainer">
+            <div id="pokemonProfile"></div>
+        </div>
+    </main>
+    <footer>
+        <h3 class="mainTitle">Copyright Ⓒ Steven Chow at <a
+                href="https://www.bcit.ca/programs/computer-systems-technology-diploma-full-time-5500dipma/">BCIT</a>
+        </h3>
+
+    </footer>
+
+</body>
+
+</html>
