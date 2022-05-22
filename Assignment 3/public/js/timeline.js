@@ -1,6 +1,6 @@
 function loadEvents() {
     $.ajax({
-        url: "https://po-kedex.herokuapp.com/timeline/getAllEvents",
+        url: "/timeline/getAllEvents",
         type: "get",
         success: (data) => {
             $("main").empty()
@@ -9,6 +9,7 @@ function loadEvents() {
                     `
                     <div class="timelineCard">
                     <table>
+                    <tr><th>User:</th><td>${data[i].name}</td></tr>
                     <tr><th>Event:</th><td>${data[i].search_event}</td></tr>
                     <tr><th>Time:</th><td>${data[i].time_event}</td></tr>
                     <tr><th>Likes:</th><td>${data[i].like_counter}</td></tr>
@@ -29,22 +30,22 @@ function increaseLike() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
     $.ajax({
-        url: `https://po-kedex.herokuapp.com/timeline/update/${timelineId}`,
+        url: `/timeline/update/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
-    loadEvents()
+    location.reload()
 }
 
 function deletePost() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
     $.ajax({
-        url: `https://po-kedex.herokuapp.com/timeline/delete/${timelineId}`,
+        url: `/timeline/delete/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
-    loadEvents()
+    location.reload()
 }
 
 function setup() {
