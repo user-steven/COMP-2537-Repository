@@ -16,7 +16,28 @@ const COLORS = {
     dragon: '#6F35FC',
     dark: '#705746',
     steel: '#B7B7CE',
-    fairy: '#D685AD',
+    fairy: '#D685AD'
+}
+
+const PRICE = {
+    normal: 1,
+    fire: 2,
+    water: 3,
+    electric: 4,
+    grass: 5,
+    ice: 6,
+    fighting: 7,
+    poison: 8,
+    ground: 9,
+    flying: 10,
+    psychic: 11,
+    bug: 12,
+    rock: 13,
+    ghost: 14,
+    dragon: 15,
+    dark: 16,
+    steel: 17,
+    fairy: 18
 }
 
 const cardsPerPage = 9
@@ -187,6 +208,16 @@ function appendType(array_) {
     })
 }
 
+function createTypeObj(array_) {
+    typeObj = {}
+    array_.forEach((item) => {
+        backgroundColor = COLORS[item.type.name]
+        type = item.type.name[0].toUpperCase() + item.type.name.slice(1)
+        typeObj[type] = backgroundColor
+    })
+    return typeObj
+}
+
 async function generatePokemonProfile(id) {
     // console.log(id)
     let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -201,9 +232,11 @@ async function generatePokemonProfile(id) {
     let statDefense = findStat(pokemon, "defense")
     let statSpeed = findStat(pokemon, "speed")
     let backgroundColor = generateBackgroundColor(pokemon)
+    let price = PRICE[pokemon.types[0].type.name]
     // console.log(`${pokemonName}\n${hp}\n${imgSource}\n${statAttack}\n${statDefense}\n${statSpeed}\n${backgroundColor}`)
     let pokemonProfileContainer = document.getElementById('pokemonProfileContainer')
     let pokemonProfile = document.getElementById('pokemonProfile')
+    let type = createTypeObj(pokemon.types)
 
     profileTimeline(id_, pokemonName)
 
@@ -217,8 +250,26 @@ async function generatePokemonProfile(id) {
     <h3 class="types"></h3><p>Type(s)</p>
     <h3>${statAttack}</h3><p>Attack</p>
     <h3>${statDefense}</h3><p>Defense</p>
-    <h3>${statSpeed}</h3><p>Speed</p>`
+    <h3>${statSpeed}</h3><p>Speed</p>
+    <br>
+    <div class="shopInfo">
+    <h3>Price:  $${price}</h3>
+
+    <form id="purchaseForm" action="/api/addToCart" method="post">
+    <input type="hidden" id="pokemonId_Cart" name="pokemonId" value="${id_}">
+    <input type="hidden" id="imgSource_Cart" name="imgSource" value="${imgSource}">
+    <input type="hidden" id="pokemonName_Cart" name="pokemonName" value="${pokemonName}">
+    <input type="hidden" id="backgroundColor_Cart" name="backgroundColor" value="${backgroundColor}">
+    <input type="hidden" id="price_Cart" name="price" value="${price}">
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity_cart" name="quantity" value="1" min="1">
+    <button type="submit" id="addToCart" class="styledButton">Add to Cart</button>
+    </form>
+    </div>
+    `
     appendType(pokemon.types)
+    document.getElementById("addToCart").addEventListener("click", addToCart)
     let pokemonProfileClose = document.querySelector('.pokemonProfileClose')
     pokemonProfileContainer.classList.add('pokemonProfileActive')
     pokemonProfileClose.addEventListener("click", function () {
@@ -320,11 +371,11 @@ function searchTimeline(searchType, input) {
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     $.ajax({
-        url: "https://po-kedex.herokuapp.com/timeline/insert",
+        url: "/timeline/insert",
         type: "put",
         data: {
-            search_event: `Client has searched for <b>${input}</b> in <b>${searchType}</b>`,
-            time_event: `Client searched on <b>${date}</b> at <b>${time}</b>`,
+            search_event: `Searched for <b>${input}</b> in <b>${searchType}</b>`,
+            time_event: `<b>${date}</b> at <b>${time}</b>`,
             like_counter: 0
         },
         success: result => console.log(result)
@@ -336,14 +387,42 @@ function profileTimeline(pokemonId, pokemonName) {
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     $.ajax({
-        url: "https://po-kedex.herokuapp.com/timeline/insert",
+        url: "/timeline/insert",
         type: "put",
         data: {
-            search_event: `Client has clicked on <b>${pokemonName}</b> with ID: <b>${pokemonId}</b>`,
-            time_event: `Client searched on <b>${date}</b> at <b>${time}</b>`,
+            search_event: `Clicked on <b>${pokemonName}</b> with ID: <b>${pokemonId}</b>`,
+            time_event: `<b>${date}</b> at <b>${time}</b>`,
             like_counter: 0,
         },
         success: result => console.log(result)
+    })
+}
+
+async function addToCart(event) {
+    event.preventDefault()
+
+    let pokemonId = $("#pokemonId_Cart").val()
+    let imgSource = $("#imgSource_Cart").val()
+    let pokemonName = $("#pokemonName_Cart").val()
+
+    let price = $("#price_Cart").val()
+    let quantity = $("#quantity_cart").val()
+
+    await $.ajax({
+        url: "/api/addToCart",
+        type: "post",
+        data: {
+            pokemonId: pokemonId,
+            imgSource: imgSource,
+            pokemonName: pokemonName,
+            backgroundColor: backgroundColor,
+            price: price,
+            quantity: quantity
+        },
+        success: () => {
+            alert(`You have successfully added ${quantity} of ${pokemonName} to your cart`)
+            window.location.replace("/profile")
+        }
     })
 }
 
