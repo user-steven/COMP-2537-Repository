@@ -24,28 +24,7 @@
     <header>
         <h1 class="mainTitle">POKÉDEX</h1>
     </header>
-    <nav>
-        <ul class="navList">
-            <li class="navItem">
-                <div id="searchBar">
-                    <select id="searchType" name="selection">
-                        <option value="pokemon" selected>Pokemon</option>
-                        <option value="type">Type</option>
-                        <option value="ability">Ability</option>
-                    </select>
-                    <label for="searchBox">Search</label>
-                    <input type="text" id="searchBox">
-                    <button type="submit" id="searchBoxSubmit" class="styledButton">Submit</button>
-                </div>
-            </li>
-            <li class="navItem">
-                <a href="/">Home</a>
-                <a id="randomize" onclick="getRandomNinePokemon()">Randomize</a>
-                <a href="/timeline">Timeline</a>
-            </li>
-
-        </ul>
-    </nav>
+    <nav><%- include("./navBar.ejs") %></nav>
     <main>
 
         <div id="historyContainer">
@@ -64,12 +43,7 @@
             <div id="pokemonProfile"></div>
         </div>
     </main>
-    <footer>
-        <h3 class="mainTitle">Copyright Ⓒ Steven Chow at <a
-                href="https://www.bcit.ca/programs/computer-systems-technology-diploma-full-time-5500dipma/">BCIT</a>
-        </h3>
-
-    </footer>
+    <footer><%- include("./footer.ejs") %></footer>
 
 </body>
 
