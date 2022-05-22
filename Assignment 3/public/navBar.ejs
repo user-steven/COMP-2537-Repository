@@ -18,10 +18,6 @@
         margin-left: 20px;
     }
 
-    #randomize {
-        cursor: pointer;
-    }
-
     li a:hover {
         background: white;
     }
@@ -56,23 +52,10 @@
     }
 </style>
 
-
 <ul class="navList">
     <li class="navItem">
-        <div id="searchBar">
-            <select id="searchType" name="selection">
-                <option value="pokemon" selected>Pokemon</option>
-                <option value="type">Type</option>
-                <option value="ability">Ability</option>
-            </select>
-            <label for="searchBox">Search</label>
-            <input type="text" id="searchBox">
-            <button type="submit" id="searchBoxSubmit" class="styledButton">Submit</button>
-        </div>
-    </li>
-    <li class="navItem">
         <a href="/">Home</a>
-        <a id="randomize" onclick="getRandomNinePokemon()">Randomize</a>
         <a href="/timeline">Timeline</a>
+        <a href="/logout">Logout</a>
     </li>
 </ul>
