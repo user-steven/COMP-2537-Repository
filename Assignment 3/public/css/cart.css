@@ -30,6 +30,36 @@ main {
     font-weight: 400;
 }
 
+.pokemonCardCheckout {
+    border-radius: 25px;
+    box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin-top: 20px;
+    width: 810px;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.pokemonCardOption {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+.pokemonCardOption .removeItem {
+    margin-left: auto;
+}
+
+#checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
 .styledButton {
     background-color: white;
     color: black;
@@ -45,4 +75,14 @@ main {
 
 .styledButton:hover {
     background: #d6f5d6;
+}
+
+@media screen {
+    @media (max-width: 960px) {
+        .pokemonCardCheckout {
+            flex-direction: column;
+            align-items: center;
+            max-width: fit-content;
+        }
+    }
 }
