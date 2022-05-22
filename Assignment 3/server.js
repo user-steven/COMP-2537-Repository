@@ -41,6 +41,7 @@ const timelineSchema = new mongoose.Schema({
     userId: String,
     name: String,
     search_event: String,
+    date: Date,
     time_event: String,
     like_counter: Number
 }, {
@@ -86,11 +87,11 @@ app.get("/", (req, res) => {
     res.render(__dirname + "/public/index.ejs")
 })
 
-app.get("/profile", authorization, (req, res) => {
-    res.render(__dirname + "/public/profile.ejs", {
-        name: req.session.name
-    })
-})
+// app.get("/profile", authorization, (req, res) => {
+//     res.render(__dirname + "/public/profile.ejs", {
+//         name: req.session.name
+//     })
+// })
 
 app.get("/cart", authorization, async (req, res) => {
     cart = await cartModel.find({ userId: req.session.user })
@@ -202,6 +203,25 @@ app.post("/api/addToCart", async (req, res) => {
     })
 })
 
+app.post("/api/updateCardQuantity", authorization, async (req, res) => {
+    await cartModel.findOneAndUpdate(
+        { $and: [{ userId: req.session.user }, { pokemonId: req.body.pokemonId }] },
+        {quantity: req.body.quantity}
+    )
+    res.redirect("/cart")
+})
+
+app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
+    await cartModel.remove({
+        "_id": req.params.id
+    }).then((result) => {
+        // console.log(result)
+        res.send("Pokemon card removed from cart.")
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
 app.get("/api/checkout", authorization, async (req, res) =>{
     checkoutItems = await cartModel.find({ 
         userId: req.session.user
@@ -222,7 +242,17 @@ app.get("/api/checkout", authorization, async (req, res) =>{
 
 
 
-
+app.get('/profile', authorization, async (req, res) => {
+    timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
+    orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
+    // console.log(orders)
+    // console.log(timeline)
+    res.render(__dirname + "/public/profile.ejs", {
+        timeline: timeline,
+        orders: orders,
+        name: req.session.name
+    })
+})
 
 
 
@@ -249,6 +279,7 @@ app.put('/timeline/insert', authorization, (req, res) => {
         userId: req.session.user,
         name: req.session.name,
         search_event: req.body.search_event,
+        date: new Date(),
         time_event: req.body.time_event,
         like_counter: req.body.like_counter
     }).then((result) => {
