@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/cart.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1 class="mainTitle">Checkout Page</h1>
+    </header>
+    <nav>
+        <%- include("./navBar.ejs") %>
+    </nav>
+    <main>
+        <div id="checkout">
+            <h2>All items in your Cart</h2>
+            <% if (cart.length > 0) { %>
+                <% let total = 0 %>
+                <% cart.forEach(item => {%>
+                <div class="pokemonCardCheckout" id="<%= item.pokemonId %>">
+                    <h2><%= item.pokemonName %></h2>
+                    <h4><%= item.price %></h4>
+                    <h4><%= item.quantity%></h4>
+                </div>
+
+                <% total += (item.price * item.quantity) %>
+
+                <% }) %>
+
+                <h2>Total (Before Tax): $<%= total %></h2>
+                <h2>Total (After Tax): $<%= (total * 1.12).toFixed(2) %></h2>
+                <button id="checkoutCart" class="styledButton" onclick="location.href='/api/checkout'">Checkout</button>
+            <% } else { %>
+                <br>
+                <h2>Your cart is empty!!</h2>
+                <h2><a href="/">Click here</a> to browse pokemons!</h2>
+                <% } %>
+
+        </div>
+    </main>
+    <footer>
+        <%- include("./footer.ejs") %>
+    </footer>
+
+    <!-- <script>
+        function checkout() {
+
+        }
+        document.getElementById("checkoutCart").addEventListener("click", checkout)
+    </script> -->
+</body>
+
+</html>
