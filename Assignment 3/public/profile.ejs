@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,18 +15,127 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
+
 <body>
     <header>
         <h1 class="mainTitle">Profile Page</h1>
     </header>
-    <nav><%- include("./navBar.ejs") %></nav>
+    <nav>
+        <%- include("./navBar.ejs") %>
+    </nav>
     <main>
         <h2>Welcome to your profile, <%= name %>!</h2>
         <div id="container">
-            <div id="order"></div>
-            <div id="timeline"></div>
+            <h3>Your recent two actions:</h3>
+            <div id="timeline">
+                <% if (timeline.length> 0) { %>
+                    <% timeline.forEach(item=> {%>
+                        <div class="timelineCard">
+                            <table>
+                                <tr>
+                                    <th>User:</th>
+                                    <td>
+                                        <%= item.name %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Event:</th>
+                                    <td>
+                                        <%- item.search_event %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Time:</th>
+                                    <td>
+                                        <%- item.time_event %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Likes:</th>
+                                    <td>
+                                        <%= item.like_counter %>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span id="<%= item._id %>">
+                                <button type="button" class="like_Button timelineButtonStyle"> Like </button>
+                                <button type="button" class="delete_Button timelineButtonStyle"> Delete </button>
+                            </span>
+                        </div>
+                        <% })} else {%>
+                            <h4> No recent actions</h4>
+                        <% } %>
+            </div>
+            <h3>Your recent two purchases:</h3>
+            <div id="order">
+                <% if (orders.length> 0) { %>
+                    <% orders.forEach(order => {%>
+                        <div class="orderContainer">
+                        <% let total = 0 %>
+                        <h2>Order #: <%= order._id %></h2>
+                        <% order.order.forEach(item => { %>
+                            <div class="pokemonCardCheckout" style="background: #AFF8DB;">
+                                <img src="<%= item.imgSource %>" width="150">
+                                <div class="pokemonCardInfo">
+                                    <h2 class="cardTitle"><%= item.pokemonName %></h2>
+                                    <h3>Price: $<%= item.price %></h3>
+                                    <h3>Quantity: <%= item.quantity%></h3>
+                                </div>
+                            </div>
+                            <% total += (item.price * item.quantity) %>
+                        <% }) %>
+                        <table class="orderCosts">
+                            <tr>
+                                <td><h2>Subtotal: </h2></td>
+                                <td><h2>$<%= total %></h2></td>
+                            </tr>
+                            <tr>
+                                <td><h2>Tax: </h2></td>
+                                <td><h2>$<%= total %></h2></td>
+                            </tr>
+                            <tr>
+                                <td><h2>Total: </h2></td>
+                                <td><h2>$<%= (total * 1.12).toFixed(2) %></h2></td>
+                            </tr>
+                        </table>
+                        </div>
+                    <% })} %>
+            </div>
         </div>
     </main>
-    <footer><%- include("./footer.ejs") %></footer>
+    <footer>
+        <%- include("./footer.ejs") %>
+    </footer>
+
+    <script>
+        function increaseLike() {
+            let timelineId = $(this).parent().attr('id')
+            // console.log(timelineId)
+            $.ajax({
+                url: `/timeline/update/${timelineId}`,
+                type: 'get',
+                success: result => console.log(result)
+            })
+            location.reload()
+        }
+
+        function deletePost() {
+            let timelineId = $(this).parent().attr('id')
+            // console.log(timelineId)
+            $.ajax({
+                url: `/timeline/delete/${timelineId}`,
+                type: 'get',
+                success: result => console.log(result)
+            })
+            location.reload()
+        }
+
+        function setup() {
+            $("main").on('click', '.like_Button', increaseLike)
+            $("main").on('click', '.delete_Button', deletePost)
+        }
+        $(document).ready(setup)
+    </script>
 </body>
+
 </html>
