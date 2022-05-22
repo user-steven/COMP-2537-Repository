@@ -421,7 +421,6 @@ async function addToCart(event) {
         },
         success: () => {
             alert(`You have successfully added ${quantity} of ${pokemonName} to your cart`)
-            window.location.replace("/profile")
         }
     })
 }
