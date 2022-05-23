@@ -83,7 +83,7 @@ const userModel = mongoose.model("user", userSchema)
 const cartModel = mongoose.model("cart", cartSchema)
 const orderModel = mongoose.model("order", orderSchema)
 
-app.get("/", (req, res) => {
+app.get("/", authorization, (req, res) => {
     res.render(__dirname + "/public/index.ejs")
 })
 
