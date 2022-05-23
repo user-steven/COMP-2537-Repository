@@ -87,12 +87,6 @@ app.get("/", (req, res) => {
     res.render(__dirname + "/public/index.ejs")
 })
 
-// app.get("/profile", authorization, (req, res) => {
-//     res.render(__dirname + "/public/profile.ejs", {
-//         name: req.session.name
-//     })
-// })
-
 app.get("/cart", authorization, async (req, res) => {
     cart = await cartModel.find({ userId: req.session.user })
     res.render(__dirname + "/public/cart.ejs", {
@@ -163,13 +157,13 @@ app.get("/logout", (req, res) => {
     res.redirect("/profile")
 })
 
-app.get("/timeline", (req, res) => {
+app.get("/timeline", authorization, (req, res) => {
     res.render(__dirname + "/public/timeline.ejs", {
         name: req.session.name
     })
 })
 
-app.post("/api/addToCart", async (req, res) => {
+app.post("/api/addToCart", authorization, async (req, res) => {
 
     await cartModel.exists({
         $and: [{
@@ -208,6 +202,7 @@ app.post("/api/updateCardQuantity", authorization, async (req, res) => {
         { $and: [{ userId: req.session.user }, { pokemonId: req.body.pokemonId }] },
         {quantity: req.body.quantity}
     )
+    console.log("User has updated item in cart")
     res.redirect("/cart")
 })
 
@@ -216,7 +211,7 @@ app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
     await cartModel.remove({
         "_id": req.params.id
     }).then((result) => {
-        // console.log(result)
+        console.log("User removed item from cart")
         res.send("Pokemon card removed from cart.")
     }).catch((err) => {
         console.log(err)
