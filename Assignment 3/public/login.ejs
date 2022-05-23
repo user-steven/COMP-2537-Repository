@@ -9,16 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/loginregister.css">
+    <link rel="stylesheet" href="/css/loginregister.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
+    <header>
+        <h1 class="mainTitle">POKÉDEX</h1>
+    </header>
+
     <div class="formContainer">
-        <h1>Login</h1>
+        <h1 class="mainTitle">Login</h1>
         <form id="loginForm" action="/api/login" method="post">
-            <hr>
 
             <label for="email"><b>Email</b></label>
             <input type="email" placeholder="Enter Email" name="email" id="email" required>
@@ -26,10 +29,14 @@
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
-            <hr>
+            <br>
+            
+            <button type="submit" class="styledButton">Login</button>
 
-            <button type="submit" class="loginButton">Login</button>
-
+            <br>
+            <br>
+            <br>
+            
             <div class="reminder">
                 <p>Don't have an account? <a href="/register">Sign up</a>.</p>
             </div>

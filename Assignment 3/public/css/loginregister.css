@@ -31,6 +31,7 @@ main {
 }
 
 .styledButton {
+    display: block;
     background-color: white;
     color: black;
     text-align: center;
@@ -39,7 +40,8 @@ main {
     cursor: pointer;
     border-radius: 8px;
     border: none;
-    margin: 4px 2px;
+    margin: 4px;
+    margin-left: auto;
     padding: 5px;
     font-size: 20px;
 }
