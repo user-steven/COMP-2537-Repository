@@ -223,24 +223,30 @@ app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
 })
 
 app.get("/api/checkout", authorization, async (req, res) =>{
-    checkoutItems = await cartModel.find({ 
-        userId: req.session.user
-    },{
-        userId: 0,
-        _id: 0
+
+    await cartModel.exists({userId: req.session.user}, async (err, result) => {
+        if (result) {
+            checkoutItems = await cartModel.find({ 
+                userId: req.session.user
+            },{
+                userId: 0,
+                _id: 0
+            })
+            
+            await orderModel.create({
+                userId: req.session.user,
+                date: new Date(),
+                order: checkoutItems
+            })
+            await cartModel.deleteMany({
+                userId: req.session.user
+            })
+            res.render(__dirname + "/public/thankyou.ejs")
+        } else {
+            res.send("Cart is Empty")
+        }
     })
-    await orderModel.create({
-        userId: req.session.user,
-        date: new Date(),
-        order: checkoutItems
-    })
-    await cartModel.deleteMany({
-        userId: req.session.user
-    })
-    res.render(__dirname + "/public/thankyou.ejs")
 })
-
-
 
 app.get('/profile', authorization, async (req, res) => {
     timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
