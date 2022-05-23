@@ -26,7 +26,7 @@
     <main>
         <h2>Welcome to your profile, <%= name %>!</h2>
         <div id="container">
-            <h3>Your recent two actions:</h3>
+            <h3>Your recent Five actions:</h3>
             <div id="timeline">
                 <% if (timeline.length> 0) { %>
                     <% timeline.forEach(item=> {%>
@@ -66,7 +66,7 @@
                             <h4> No recent actions</h4>
                         <% } %>
             </div>
-            <h3>Your recent two purchases:</h3>
+            <h3>Your recent Five purchases:</h3>
             <div id="order">
                 <% if (orders.length> 0) { %>
                     <% orders.forEach(order => {%>

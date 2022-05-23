@@ -249,8 +249,8 @@ app.get("/api/checkout", authorization, async (req, res) =>{
 
 // load profile
 app.get('/profile', authorization, async (req, res) => {
-    timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
-    orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
+    timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
+    orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
     // console.log(orders)
     // console.log(timeline)
     console.log("Profile page loaded")
