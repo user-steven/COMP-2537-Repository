@@ -27,6 +27,11 @@ main {
 
 .mainTitle {
     text-align: center;
+    font-weight: 400;
+}
+
+.loginTitle {
+    text-align: center;
     font-weight: 700;
 }
 
