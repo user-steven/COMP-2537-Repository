@@ -152,7 +152,7 @@ app.post("/api/login", (req, res) => {
             }
         }
         else {
-            res.send("User does not exist")
+            res.send("Incorrect Email or Password")
         }
     })
 })
@@ -211,6 +211,7 @@ app.post("/api/updateCardQuantity", authorization, async (req, res) => {
     res.redirect("/cart")
 })
 
+
 app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
     await cartModel.remove({
         "_id": req.params.id
@@ -222,6 +223,7 @@ app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
     })
 })
 
+// checkout user
 app.get("/api/checkout", authorization, async (req, res) =>{
 
     await cartModel.exists({userId: req.session.user}, async (err, result) => {
@@ -241,18 +243,22 @@ app.get("/api/checkout", authorization, async (req, res) =>{
             await cartModel.deleteMany({
                 userId: req.session.user
             })
+            console.log("User successfully checkedout")
             res.render(__dirname + "/public/thankyou.ejs")
         } else {
+            console.log("Cart is empty")
             res.send("Cart is Empty")
         }
     })
 })
 
+// load profile
 app.get('/profile', authorization, async (req, res) => {
     timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
     orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(2)
     // console.log(orders)
     // console.log(timeline)
+    console.log("Profile page loaded")
     res.render(__dirname + "/public/profile.ejs", {
         timeline: timeline,
         orders: orders,
@@ -260,26 +266,19 @@ app.get('/profile', authorization, async (req, res) => {
     })
 })
 
-
-
-
-
-
-
-
-
-// read
+// read all timeline
 app.get('/timeline/getAllEvents', authorization, async (req, res) => {
     await timelineModel.find({ 
         userId: req.session.user
     }).then((result) => {
         res.send(result)
+        console.log("User viewed all timeline posts")
     }).catch((err) => {
         console.log(err)
     })
 })
 
-// create
+// create timeline
 app.put('/timeline/insert', authorization, (req, res) => {
     timelineModel.create({
         userId: req.session.user,
@@ -289,34 +288,34 @@ app.put('/timeline/insert', authorization, (req, res) => {
         time_event: req.body.time_event,
         like_counter: req.body.like_counter
     }).then((result) => {
-        // console.log(result)
-        res.send("Client action has been logged successfully")
+        console.log("User action has been logged successfully")
+        res.send("User action has been logged successfully")
     }).catch((err) => {
         console.log(err)
     })
 })
 
-// update
+// update timeline
 app.get('/timeline/update/:id', authorization, (req, res) => {
     timelineModel.updateOne({
         "_id": req.params.id
     }, {
         $inc: { like_counter: 1 }
     }).then((result) => {
-        // console.log(result)
-        res.send("Like counter has incremented successfully")
+        console.log("User liked a timeline post")
+        res.send("User liked a timeline post")
     }).catch((err) => {
         console.log(err)
     })
 })
 
-// delete
+// delete timeline
 app.get('/timeline/delete/:id', authorization, (req, res) => {
-    timelineModel.remove({
+    timelineModel.deleteOne({
         "_id": req.params.id
     }).then((result) => {
-        // console.log(result)
-        res.send("Deleted timeline post successfully")
+        console.log("User deleted timeline post")
+        res.send("User deleted timeline post")
     }).catch((err) => {
         console.log(err)
     })
