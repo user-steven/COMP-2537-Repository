@@ -172,6 +172,10 @@ app.get("/timeline", authorization, (req, res) => {
     })
 })
 
+app.get("/game", (req, res) => {
+    res.render(__dirname + "/public/memorygame.ejs")
+})
+
 app.post("/api/addToCart", authorization, async (req, res) => {
 
     await cartModel.exists({
