@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-image: url(../images/gradient.jpg);
+    background-repeat: no-repeat;
+    background-size: stretch;
+}
+
+header {
+    letter-spacing: 1rem;
+    padding: 1rem;
+    font-size: x-large;
+}
+
+footer {
+    padding: 60px 0;
+}
+
+main {
+    padding: 60px 60px;
+}
+
+.mainTitle {
+    text-align: center;
+    font-weight: 400;
+}
+
+.pokemonCardCheckout {
+    border-radius: 25px;
+    box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin-top: 20px;
+    width: 810px;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.pokemonCardOption {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+.pokemonCardOption .removeItem {
+    margin-left: auto;
+}
+
+#checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+.styledButton {
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    margin: 4px 2px;
+    padding: 5px;
+}
+
+.styledButton:hover {
+    background: #d6f5d6;
+}
+
+@media screen {
+    @media (max-width: 960px) {
+        .pokemonCardCheckout {
+            flex-direction: column;
+            align-items: center;
+            max-width: fit-content;
+        }
+    }
+}

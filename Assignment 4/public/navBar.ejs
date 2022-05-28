@@ -1,0 +1,62 @@
+<style>
+    .navList {
+        padding: 1rem 0;
+        display: flex;
+    }
+
+    .navItem {
+        list-style: none;
+        margin-left: 2rem;
+        padding: 0.5rem 0;
+    }
+
+    li a {
+        text-decoration: none;
+        color: black;
+        padding: 5px;
+        border-radius: 8px;
+        margin-left: 20px;
+    }
+
+    li a:hover {
+        background: white;
+    }
+
+    .navItem:last-child {
+        margin-left: auto;
+        margin-right: 2rem;
+    }
+
+    @media screen {
+        @media (max-width: 827px) {
+            .navList {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .navItem:last-child {
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .navList {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .navItem:last-child {
+                margin: 0;
+            }
+        }
+    }
+</style>
+
+<ul class="navList">
+    <li class="navItem">
+        <a href="/">Home</a>
+        <a href="/profile">Profile</a>
+        <a href="/cart">Cart</a>
+        <a href="/logout">Logout</a>
+    </li>
+</ul>
