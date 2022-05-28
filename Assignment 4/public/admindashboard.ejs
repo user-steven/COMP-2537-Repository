@@ -20,38 +20,70 @@
         <h1 class="mainTitle">ADMIN DASHBOARD</h1>
     </header>
 </body>
-    <nav>
-        <ul class="navList">
-            <li class="navItem">
-                <a href="/logout">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <main>
-        <form id="adminCreateUser" action="/api/CreateUser" method="post">
+<nav>
+    <ul class="navList">
+        <li class="navItem">
+            <a href="/logout">Logout</a>
+        </li>
+    </ul>
+</nav>
+<main>
+    <form id="adminCreateUser" action="/api/CreateUser" method="post">
 
-            <label for="admin"><b>Admin: </b></label>
-            <select name="admin" id="admin">
-                <option value="false" selected>False</option>
-                <option value="true">True</option>
-            </select>
+        <label for="admin"><b>Admin: </b></label>
+        <select name="admin" id="admin">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+        </select>
 
-            <label for="firstName"><b>First Name</b></label>
-            <input type="text" placeholder="Enter First Name" name="firstName" id="firstName" required>
+        <label for="firstName"><b>First Name</b></label>
+        <input type="text" placeholder="Enter First Name" name="firstName" id="firstName" required>
 
-            <label for="lastName"><b>Last Name</b></label>
-            <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
+        <label for="lastName"><b>Last Name</b></label>
+        <input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" required>
 
-            <label for="email"><b>Email</b></label>
-            <input type="email" placeholder="Enter Email" name="email" id="email" required>
+        <label for="email"><b>Email</b></label>
+        <input type="email" placeholder="Enter Email" name="email" id="email" required>
 
-            <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" id="password" required>
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
-            <br>
+        <button type="submit" class="styledButton">Add User</button>
+    </form>
+    <div id="userAccount">
+        <% if (users.length> 0) {%>
+            <% users.forEach(user=> { %>
+                <div class="userCard" id="<%= user._id %>">
+                    <form action="/api/updateUser" method="post">
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <label for="admin"><b>Admin: </b></label>
+                        <select name="admin">
+                            <% if (user.admin) {%>
+                                <option value="true" selected>True</option>
+                                <option value="false">False</option>
+                                <% } else { %>
+                                    <option value="false" selected>False</option>
+                                    <option value="true">True</option>
+                                    <% } %>
+                        </select>
 
-            <button type="submit" class="styledButton">Add User</button>
-        </form>
-    </main>
+                        <label for="firstName"><b>First Name</b></label>
+                        <input type="text" value="<%= user.firstName %>" name="firstName" required>
+
+                        <label for="lastName"><b>Last Name</b></label>
+                        <input type="text" value="<%= user.lastName %>" name="lastName" required>
+
+                        <label for="email"><b>Email</b></label>
+                        <input type="email" value="<%= user.email %>" name="email" required>
+
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" placeholder="Leave blank for org pass" value="" name="password">
+                        <button type="submit">Update</button>
+                        <button type="button" class="removeUserButton">Delete User</button>
+                    </form>
+                </div>
+                <% })} %>
+    </div>
+</main>
 
 </html>
