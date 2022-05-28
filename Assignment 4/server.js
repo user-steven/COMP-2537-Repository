@@ -138,6 +138,7 @@ app.post("/api/login", (req, res) => {
                 req.session.authenticated = true
                 req.session.user = user.id
                 req.session.name = user.firstName
+                req.session.isAdmin = user.admin
                 console.log("Login successful")
                 res.redirect("/profile")
             }
@@ -249,16 +250,20 @@ app.get("/api/checkout", authorization, async (req, res) =>{
 
 // load profile
 app.get('/profile', authorization, async (req, res) => {
-    timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
-    orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
-    // console.log(orders)
-    // console.log(timeline)
-    console.log("Profile page loaded")
-    res.render(__dirname + "/public/profile.ejs", {
-        timeline: timeline,
-        orders: orders,
-        name: req.session.name
-    })
+    if (req.session.isAdmin) {
+        res.render(__dirname + "/public/admindashboard.ejs")
+    } else {
+        timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
+        orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
+        // console.log(orders)
+        // console.log(timeline)
+        res.render(__dirname + "/public/profile.ejs", {
+            timeline: timeline,
+            orders: orders,
+            name: req.session.name
+        })
+        console.log("Profile page loaded")
+    }
 })
 
 // read all timeline
@@ -315,5 +320,4 @@ app.get('/timeline/delete/:id', authorization, async (req, res) => {
         console.log(err)
     })
 })
-
 
