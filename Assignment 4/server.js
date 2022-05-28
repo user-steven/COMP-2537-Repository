@@ -120,8 +120,8 @@ app.post("/api/register", async (req, res) => {
     hash_password = await bcrypt.hash(req.body.password, 1)
 
     await userModel.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        firstName: req.body.firstName.trim(),
+        lastName: req.body.lastName.trim(),
         email: req.body.email.toLowerCase().trim(),
         password: hash_password,
         admin: false
@@ -209,7 +209,7 @@ app.post("/api/addToCart", authorization, async (req, res) => {
 app.post("/api/updateCardQuantity", authorization, async (req, res) => {
     await cartModel.findOneAndUpdate(
         { $and: [{ userId: req.session.user }, { pokemonId: req.body.pokemonId }] },
-        {quantity: req.body.quantity}
+        { quantity: req.body.quantity }
     )
     console.log("User has updated item in cart")
     res.redirect("/cart")
@@ -228,17 +228,17 @@ app.get("/api/removeCartItem/:id", authorization, async (req, res) => {
 })
 
 // checkout user
-app.get("/api/checkout", authorization, async (req, res) =>{
+app.get("/api/checkout", authorization, async (req, res) => {
 
-    await cartModel.exists({userId: req.session.user}, async (err, result) => {
+    await cartModel.exists({ userId: req.session.user }, async (err, result) => {
         if (result) {
-            checkoutItems = await cartModel.find({ 
+            checkoutItems = await cartModel.find({
                 userId: req.session.user
-            },{
+            }, {
                 userId: 0,
                 _id: 0
             })
-            
+
             await orderModel.create({
                 userId: req.session.user,
                 date: new Date(),
@@ -259,14 +259,14 @@ app.get("/api/checkout", authorization, async (req, res) =>{
 // load profile
 app.get('/profile', authorization, async (req, res) => {
     if (req.session.isAdmin) {
-        users = await userModel.find({}).sort({admin: -1})
+        users = await userModel.find({}).sort({ admin: -1 })
         console.log(users)
         res.render(__dirname + "/public/admindashboard.ejs", {
             users: users
         })
     } else {
-        timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
-        orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
+        timeline = await timelineModel.find({ userId: req.session.user }).sort({ date: -1 }).limit(5)
+        orders = await orderModel.find({ userId: req.session.user }).sort({ date: -1 }).limit(5)
         // console.log(orders)
         // console.log(timeline)
         res.render(__dirname + "/public/profile.ejs", {
@@ -280,7 +280,7 @@ app.get('/profile', authorization, async (req, res) => {
 
 // read all timeline
 app.get('/timeline/getAllEvents', authorization, async (req, res) => {
-    await timelineModel.find({ 
+    await timelineModel.find({
         userId: req.session.user
     }).then((result) => {
         res.send(result)
@@ -349,7 +349,7 @@ app.post("/api/CreateUser", adminAuthorization, async (req, res) => {
     }).catch((err) => {
         console.log(err)
         if (err.code == 11000)
-        res.send("User already registered")
+            res.send("User already registered")
     })
 })
 
@@ -366,5 +366,41 @@ app.get("/api/DeleteUser/:id", adminAuthorization, async (req, res) => {
         })
     } else {
         res.send("You cannot delete the account currently in use.")
+    }
+})
+
+//Admin Update User
+app.post("/api/updateUser", adminAuthorization, async (req, res) => {
+    if (req.body.password.length == 0) {
+        await userModel.updateOne({
+            "_id": req.body.userId
+        }, {
+            firstName: req.body.firstName.trim(),
+            lastName: req.body.lastName.trim(),
+            email: req.body.email.toLowerCase().trim(),
+            admin: req.body.admin
+        }).then((result) => {
+            console.log("Admin has updated an account.")
+            res.redirect("/profile")
+        }).catch((err) => {
+            console.log(err)
+        })
+    } else {
+        hash_password = await bcrypt.hash(req.body.password, 1)
+
+        await userModel.updateOne({
+            "_id": req.body.userId
+        }, {
+            firstName: req.body.firstName.trim(),
+            lastName: req.body.lastName.trim(),
+            email: req.body.email.toLowerCase().trim(),
+            admin: req.body.admin,
+            password: hash_password
+        }).then((result) => {
+            console.log("Admin has updated an account.")
+            res.redirect("/profile")
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 })
