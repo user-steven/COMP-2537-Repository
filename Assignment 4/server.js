@@ -33,6 +33,14 @@ function authorization(req, res, next) {
     }
 }
 
+function adminAuthorization(req, res, next) {
+    if (req.session.authenticated && req.session.isAdmin) {
+        next()
+    } else {
+        res.redirect("/login")
+    }
+}
+
 mongoose.connect("mongodb+srv://steven:qFoNHGmAl2u6YS4Z@cluster0.qcq3i.mongodb.net/PokedexClient?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -251,7 +259,11 @@ app.get("/api/checkout", authorization, async (req, res) =>{
 // load profile
 app.get('/profile', authorization, async (req, res) => {
     if (req.session.isAdmin) {
-        res.render(__dirname + "/public/admindashboard.ejs")
+        users = await userModel.find({}).sort({admin: -1})
+        console.log(users)
+        res.render(__dirname + "/public/admindashboard.ejs", {
+            users: users
+        })
     } else {
         timeline = await timelineModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
         orders = await orderModel.find({userId: req.session.user}).sort({date: -1}).limit(5)
@@ -321,3 +333,38 @@ app.get('/timeline/delete/:id', authorization, async (req, res) => {
     })
 })
 
+//Admin Create User
+app.post("/api/CreateUser", adminAuthorization, async (req, res) => {
+    hash_password = await bcrypt.hash(req.body.password, 1)
+
+    await userModel.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email.toLowerCase().trim(),
+        password: hash_password,
+        admin: req.body.admin
+    }).then((result) => {
+        res.redirect("/profile")
+        console.log("Admin has created an account.")
+    }).catch((err) => {
+        console.log(err)
+        if (err.code == 11000)
+        res.send("User already registered")
+    })
+})
+
+//Admin Delete User
+app.get("/api/DeleteUser/:id", adminAuthorization, async (req, res) => {
+    if (req.session.user != req.params.id) {
+        await userModel.deleteOne({
+            "_id": req.params.id
+        }).then((result) => {
+            res.send("You have deleted an account.")
+            console.log("Admin has deleted an account.")
+        }).catch((err) => {
+            console.log(err)
+        })
+    } else {
+        res.send("You cannot delete the account currently in use.")
+    }
+})
