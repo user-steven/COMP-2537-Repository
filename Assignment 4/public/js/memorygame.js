@@ -9,10 +9,36 @@ var randomPokemon = null
 var neededPokemonCount = null
 var pokemonCardArray = null
 
+var gameId = null
+
+
+async function logGame() {
+    await $.ajax({
+        url: "/api/game",
+        type: "put",
+        data: {
+            gameBoard: `${gameWidth} x ${gameHeight}`,
+            pokemonCount: pokemonCount
+        },
+        success: (result) => {
+            gameId = result._id
+            $("#gameOptionButton").prop('disabled', false)
+        }
+    })
+}
+
+async function winGame() {
+    await $.ajax({
+        url: `/api/game/${gameId}`,
+        type: "get"
+    })
+}
 
 function gameOption() {
     $("#gameOption").submit((event) => {
         event.preventDefault()
+
+        $("#gameOptionButton").prop('disabled', true)
 
         gameWidth = parseInt($("#width").val())
         gameHeight = parseInt($("#height").val())
@@ -20,6 +46,9 @@ function gameOption() {
         randomPokemon = generateRandomPokemon(pokemonCount)
         neededPokemonCount = (gameWidth * gameHeight) / 2
         pokemonCardArray = shuffleArray(generatePokemonCards(randomPokemon, neededPokemonCount, gameWidth, gameHeight))
+
+        logGame()
+
         $("#gameGrid").html(pokemonCardArray)
         $(".card").on("click", flip)
     })
@@ -36,12 +65,12 @@ function generatePokemonCards(pokemonId, requiredPokemonCount, width, height) {
         } else {
             // console.log("count:" + count + " pokemon ID: " + randomPokemon[index])
             card_1 = `
-            <div class="card" style="height: calc(${100/height}% - 5px); width: calc(${100/width}% - 5px);">
+            <div class="card" style="height: calc(${100 / height}% - 5px); width: calc(${100 / width}% - 5px);">
                 <img class="frontFace" id="${pokemonId[index]}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
                 <img class="backFace" src="./images/back.png">
             </div>`
             card_2 = `
-            <div class="card" style="height: calc(${100/height}% - 5px); width: calc(${100/width}% - 5px);">
+            <div class="card" style="height: calc(${100 / height}% - 5px); width: calc(${100 / width}% - 5px);">
                 <img class="frontFace" id="${pokemonId[index] + 1000}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
                 <img class="backFace" src="./images/back.png">
             </div>`
@@ -97,12 +126,6 @@ function checkCards(firstCard, secondCard) {
         $(`#${firstCard.id}`).parent().off("click")
         $(`#${secondCard.id}`).parent().off("click")
         $("#gameGrid").removeClass("disableClick")
-        setTimeout(() => {
-            if (document.getElementsByClassName("flip").length == (gameWidth * gameHeight)) {
-                alert("You win!")
-            }
-        }, 1500)
-
     } else {
         setTimeout(() => {
             $(`#${firstCard.id}`).parent().removeClass("flip")
@@ -112,19 +135,25 @@ function checkCards(firstCard, secondCard) {
             $("#gameGrid").removeClass("disableClick")
         }, 2000)
     }
-    
+
+    if (document.getElementsByClassName("flip").length == (gameWidth * gameHeight)) {
+        winGame()
+        setTimeout(() => {
+            alert("You win!")
+        }, 1000)
+    }
 }
 
-function handler(event) {
-    if (event.target.className == "card") {
-        event.stopPropagation()
-        event.preventDefault()
+function quitGame() {
+    if (document.getElementsByClassName("flip").length != (gameWidth * gameHeight)) {
+        alert("You lose.")
     }
+    window.location.reload(true)
 }
 
 function setup() {
     $("#gameOptionButton").on("click", gameOption)
-    
+    $("#quitGame").on("click", quitGame)
 }
 
 $(document).ready(setup)
