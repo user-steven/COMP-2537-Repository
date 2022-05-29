@@ -43,7 +43,6 @@ main {
 
 .pokemonCardCheckout {
     border-radius: 25px;
-    box-shadow: 10px 4px 8px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
     padding: 10px;
@@ -80,10 +79,18 @@ main {
 
 th, td {
     padding: 5px;
+    text-align: left;
 }
 
 .timelineCard {
     background-color: #6EB5FF;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 25px;
+}
+
+.gameCard {
+    background-color: #FFF5BA;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 25px;
@@ -94,9 +101,9 @@ th, td {
 }
 
 @media screen {
-    @media (max-width: 900px) {
+    @media (max-width: 1525px) {
         #container {
-            flex-wrap: wrap;
+            flex-direction: column;
         }
     }
 }
