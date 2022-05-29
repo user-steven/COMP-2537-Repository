@@ -28,17 +28,25 @@ main {
     align-items: center;
 }
 
+input[type=number] {
+    font-size: 18px;
+    width: 45px;
+    border: 1px solid black;
+}
+
 .mainTitle {
     text-align: center;
     font-weight: 400;
 }
 
 #gameGrid {
-    width:40vw;
-    height:40vw;
+    width: 50vw;
+    height: 50vw;
     background-color: white;
+    /* border: 2px solid black; */
     border-radius: 10px;
-    margin: auto;
+    margin: 0 auto;
+    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -55,15 +63,17 @@ main {
 
 .backFace {
     position: absolute;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     backface-visibility: hidden;
 }
 
 .frontFace {
     position: absolute;
-    max-width: 70%;
-    max-height: 70%;
+    /* max-width: 70%;
+    max-height: 70%; */
+    width: 100%;
+    height: 100%;
     backface-visibility: hidden;
     transform: rotateY(180deg);
 }
@@ -97,6 +107,16 @@ main {
     background: #FF6961;
 }
 
-#instructions{
-    margin: 0 auto;
+@media screen {
+    @media (max-width: 768px) {
+        input[type=number] {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        main {
+            align-items: flex-start;
+        }
+    }
 }
