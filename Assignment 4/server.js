@@ -278,11 +278,13 @@ app.get('/profile', authorization, async (req, res) => {
     } else {
         timeline = await timelineModel.find({ userId: req.session.user }).sort({ date: -1 }).limit(5)
         orders = await orderModel.find({ userId: req.session.user }).sort({ date: -1 }).limit(5)
+        games = await gameModel.find({ userId: req.session.user }).sort({ date: -1 }).limit(5)
         // console.log(orders)
         // console.log(timeline)
         res.render(__dirname + "/public/profile.ejs", {
             timeline: timeline,
             orders: orders,
+            games: games,
             name: req.session.name
         })
         console.log("Profile page loaded")
