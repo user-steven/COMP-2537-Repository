@@ -101,6 +101,50 @@
                         </div>
                     <% })} %>
             </div>
+
+            <h3>Your recent Five Games:</h3>
+            <div id="gameLog">
+                <% if (games.length > 0) {%>
+                    <% games.forEach(item => {%>
+                        <div class="gameCard">
+                            <table>
+                                <tr>
+                                    <th>
+                                        Date: 
+                                    </th>
+                                    <td>
+                                        <%= item.date %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Game Dimensions: 
+                                    </th>
+                                    <td>
+                                        <%= item.gameBoard %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Pokemon Count: 
+                                    </th>
+                                    <td>
+                                        <%= item.pokemonCount %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Result: 
+                                    </th>
+                                    <td>
+                                        <%= item.game %>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
         </div>
     </main>
     <footer>
