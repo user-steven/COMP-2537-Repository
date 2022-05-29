@@ -271,7 +271,7 @@ app.get("/api/checkout", authorization, async (req, res) => {
 app.get('/profile', authorization, async (req, res) => {
     if (req.session.isAdmin) {
         users = await userModel.find({}).sort({ admin: -1 })
-        console.log(users)
+        // console.log(users)
         res.render(__dirname + "/public/admindashboard.ejs", {
             users: users
         })
@@ -345,7 +345,7 @@ app.get('/timeline/delete/:id', authorization, async (req, res) => {
 })
 
 
-app.get("/game", (req, res) => {
+app.get("/game", authorization, (req, res) => {
     res.render(__dirname + "/public/memorygame.ejs")
 })
 
