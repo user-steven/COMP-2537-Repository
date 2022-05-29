@@ -9,7 +9,7 @@ async function removeUser() {
 }
 
 function setup() {
-    $("#userAccount").on("click", ".removeUserButton", removeUser)
+    $("#userAccount").on("click", "#removeUserButton", removeUser)
 }
 
 $(document).ready(setup)
