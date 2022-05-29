@@ -86,10 +86,21 @@ const orderSchema = new mongoose.Schema({
     versionKey: false
 })
 
+const gameSchema = new mongoose.Schema({
+    userId: String,
+    date: Date,
+    game: String,
+    gameBoard: String,
+    pokemonCount: Number
+}, {
+    versionKey: false
+})
+
 const timelineModel = mongoose.model("timeline", timelineSchema)
 const userModel = mongoose.model("user", userSchema)
 const cartModel = mongoose.model("cart", cartSchema)
 const orderModel = mongoose.model("order", orderSchema)
+const gameModel = mongoose.model("game", gameSchema)
 
 app.get("/", authorization, (req, res) => {
     res.render(__dirname + "/public/index.ejs")
@@ -170,10 +181,6 @@ app.get("/timeline", authorization, (req, res) => {
     res.render(__dirname + "/public/timeline.ejs", {
         name: req.session.name
     })
-})
-
-app.get("/game", (req, res) => {
-    res.render(__dirname + "/public/memorygame.ejs")
 })
 
 app.post("/api/addToCart", authorization, async (req, res) => {
@@ -332,6 +339,38 @@ app.get('/timeline/delete/:id', authorization, async (req, res) => {
     }).then((result) => {
         console.log("User deleted timeline post")
         res.send("User deleted timeline post")
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
+
+app.get("/game", (req, res) => {
+    res.render(__dirname + "/public/memorygame.ejs")
+})
+
+app.put("/api/game", authorization, async (req, res) => {
+    await gameModel.create({
+        userId: req.session.user,
+        game: "Lost",
+        date: new Date(),
+        gameBoard: req.body.gameBoard,
+        pokemonCount: req.body.pokemonCount
+    }).then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
+app.get('/api/game/:id', authorization, async (req, res) => {
+    await gameModel.updateOne({
+        "_id": req.params.id
+    }, {
+        game: "Won"
+    }
+    ).then((result) => {
+        console.log("User has won the game.")
     }).catch((err) => {
         console.log(err)
     })
