@@ -21,10 +21,6 @@ footer {
     padding: 60px 0;
 }
 
-main {
-    padding: 60px 60px;
-}
-
 .mainTitle {
     text-align: center;
     font-weight: 400;
@@ -56,18 +52,23 @@ main {
 }
 
 .formContainer {
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #registerForm {
     margin-top: 60px;
     border-radius: 25px;
     background: white;
-    width: 500px;
+    width: 25vw;
     padding: 10px 20px;
 }
 
@@ -75,7 +76,7 @@ main {
     margin-top: 60px;
     border-radius: 25px;
     background: white;
-    width: 500px;
+    width: 25vw;
     padding: 10px 20px;
 }
 
@@ -89,4 +90,12 @@ input[type=text] {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+}
+
+@media screen {
+    @media (max-width: 900px) {
+        #loginForm, #registerForm {
+            width: 70vw;
+        }
+    }
 }
