@@ -77,11 +77,11 @@ li a:hover {
     float: right;
 }
 
-#addUserButton:hover, #updateUserButton:hover {
+.addUserButton:hover, .updateUserButton:hover {
     background: #d6f5d6;
 }
 
-#removeUserButton:hover {
+.removeUserButton:hover {
     background: #FF6961;
 }
 
