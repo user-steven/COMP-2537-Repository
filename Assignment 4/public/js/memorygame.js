@@ -145,6 +145,7 @@ function checkCards(firstCard, secondCard) {
 }
 
 function quitGame() {
+    $("#quitGame").prop("disabled", true)
     if (document.getElementsByClassName("flip").length != (gameWidth * gameHeight)) {
         alert("You lose.")
     }
