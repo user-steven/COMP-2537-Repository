@@ -63,7 +63,7 @@
                             </span>
                         </div>
                         <% })} else {%>
-                            <h4> No recent actions</h4>
+                            <h4> No recent actions.</h4>
                         <% } %>
             </div>
             <h3>Your recent Five purchases:</h3>
@@ -99,7 +99,9 @@
                             </tr>
                         </table>
                         </div>
-                    <% })} %>
+                    <% })} else {%>
+                        <h4> No recent purchases.</h4>
+                    <% } %>
             </div>
 
             <h3>Your recent Five Games:</h3>
@@ -142,8 +144,9 @@
                                 </tr>
                             </table>
                         </div>
-                    <% }) %>
-                <% } %>
+                    <% })} else {%>
+                        <h4> No recent games</h4>
+                    <% } %>
             </div>
         </div>
     </main>
