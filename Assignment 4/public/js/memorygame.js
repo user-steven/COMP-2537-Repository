@@ -66,12 +66,12 @@ function generatePokemonCards(pokemonId, requiredPokemonCount, width, height) {
             // console.log("count:" + count + " pokemon ID: " + randomPokemon[index])
             card_1 = `
             <div class="card" style="height: calc(${100 / height}% - 5px); width: calc(${100 / width}% - 5px);">
-                <img class="frontFace" id="${pokemonId[index]}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
+                <img class="frontFace" id="${Math.floor(Math.random() * 1000000000)}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
                 <img class="backFace" src="./images/back.png">
             </div>`
             card_2 = `
             <div class="card" style="height: calc(${100 / height}% - 5px); width: calc(${100 / width}% - 5px);">
-                <img class="frontFace" id="${pokemonId[index] + 1000}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
+                <img class="frontFace" id="${Math.floor(Math.random() * 10000000000)}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId[index]}.png">
                 <img class="backFace" src="./images/back.png">
             </div>`
             pokemonCardArray.push(card_1)
@@ -133,14 +133,14 @@ function checkCards(firstCard, secondCard) {
             $(`#${firstCard.id}`).parent().on("click", flip)
             $(`#${secondCard.id}`).parent().on("click", flip)
             $("#gameGrid").removeClass("disableClick")
-        }, 2000)
+        }, 500)
     }
 
     if (document.getElementsByClassName("flip").length == (gameWidth * gameHeight)) {
         winGame()
         setTimeout(() => {
             alert("You win!")
-        }, 1000)
+        }, 500)
     }
 }
 

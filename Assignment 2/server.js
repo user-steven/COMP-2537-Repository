@@ -31,16 +31,7 @@ const timelineSchema = new mongoose.Schema({
      versionKey: false
  })
 
- const userSchema = new mongoose.Schema({
-     email: String,
-     password: String,
-     cart: Array
- }, {
-    versionKey: false
-})
-
 const timelineModel = mongoose.model("timeline", timelineSchema)
-const userModel = mongoose.model("user", userSchema)
 
 app.get("/", (req, res) =>{
     res.render(__dirname + "/public/index.ejs")
@@ -51,8 +42,8 @@ app.get("/timeline", (req, res) =>{
 })
 
 // read
- app.get('/timeline/getAllEvents', (req, res) =>{
-     timelineModel.find().then((result) =>{
+ app.get('/timeline/getAllEvents', async (req, res) =>{
+     await timelineModel.find().then((result) =>{
          res.send(result)
      }).catch((err) =>{
          console.log(err)
@@ -60,8 +51,8 @@ app.get("/timeline", (req, res) =>{
  })
 
 // create
- app.put('/timeline/insert', (req, res) =>{
-    timelineModel.create({
+ app.put('/timeline/insert', async (req, res) =>{
+    await timelineModel.create({
         search_event: req.body.search_event,
         time_event: req.body.time_event,
         like_counter: req.body.like_counter
@@ -74,8 +65,8 @@ app.get("/timeline", (req, res) =>{
 })
 
 // update
-app.get('/timeline/update/:id', (req, res) =>{
-    timelineModel.updateOne({
+app.get('/timeline/update/:id', async (req, res) =>{
+    await timelineModel.updateOne({
         "_id" : req.params.id
     }, {
         $inc: {like_counter: 1}
@@ -88,8 +79,8 @@ app.get('/timeline/update/:id', (req, res) =>{
 })
 
 // delete
-app.get('/timeline/delete/:id', (req, res) =>{
-    timelineModel.remove({
+app.get('/timeline/delete/:id', async (req, res) =>{
+    await timelineModel.remove({
         "_id" : req.params.id
     }).then((result) =>{
         // console.log(result)

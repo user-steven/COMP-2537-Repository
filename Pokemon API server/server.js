@@ -56,8 +56,8 @@ const pokemonModel = mongoose.model("pokemons", pokemonSchema)
 const typeModel = mongoose.model("types", typeSchema)
 const abilityModel =mongoose.model("abilities", abilitySchema)
 
-app.get('/pokemon', (req, res) =>{
-    pokemonModel.find().then((result) =>{
+app.get('/pokemon', async (req, res) =>{
+    await pokemonModel.find().then((result) =>{
         res.send(result)
     }).catch((err) =>{
         console.log(err)
@@ -73,8 +73,8 @@ app.get('/pokemon', (req, res) =>{
 //     })
 // })
 
-app.get('/pokemon/name/:name', (req, res) =>{
-    pokemonModel.find({
+app.get('/pokemon/name/:name', async (req, res) =>{
+    await pokemonModel.find({
         name: req.params.name
     }).then((result) =>{
         res.send(result[0])
@@ -83,8 +83,8 @@ app.get('/pokemon/name/:name', (req, res) =>{
     })
 })
 
-app.get('/pokemon/id/:id', (req, res) =>{
-    pokemonModel.find({
+app.get('/pokemon/id/:id', async (req, res) =>{
+    await pokemonModel.find({
         id: req.params.id
     }).then((result) =>{
         res.send(result[0])
@@ -93,8 +93,8 @@ app.get('/pokemon/id/:id', (req, res) =>{
     })
 })
 
-app.get('/type/:type', (req, res) =>{
-    typeModel.find({
+app.get('/type/:type', async (req, res) =>{
+    await typeModel.find({
         name: req.params.type
     }).then((result) =>{
         res.send(result[0])
@@ -103,8 +103,8 @@ app.get('/type/:type', (req, res) =>{
     })
 })
 
-app.get('/ability/:ability', (req, res) =>{
-    abilityModel.find({
+app.get('/ability/:ability', async (req, res) =>{
+    await abilityModel.find({
         name: req.params.ability
     }).then((result) =>{
         res.redirect(result[0].url)

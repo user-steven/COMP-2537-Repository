@@ -274,8 +274,8 @@ app.get('/timeline/getAllEvents', authorization, async (req, res) => {
 })
 
 // create timeline
-app.put('/timeline/insert', authorization, (req, res) => {
-    timelineModel.create({
+app.put('/timeline/insert', authorization, async (req, res) => {
+    await timelineModel.create({
         userId: req.session.user,
         name: req.session.name,
         search_event: req.body.search_event,
@@ -291,8 +291,8 @@ app.put('/timeline/insert', authorization, (req, res) => {
 })
 
 // update timeline
-app.get('/timeline/update/:id', authorization, (req, res) => {
-    timelineModel.updateOne({
+app.get('/timeline/update/:id', authorization, async (req, res) => {
+    await timelineModel.updateOne({
         "_id": req.params.id
     }, {
         $inc: { like_counter: 1 }
@@ -305,8 +305,8 @@ app.get('/timeline/update/:id', authorization, (req, res) => {
 })
 
 // delete timeline
-app.get('/timeline/delete/:id', authorization, (req, res) => {
-    timelineModel.deleteOne({
+app.get('/timeline/delete/:id', authorization, async (req, res) => {
+    await timelineModel.deleteOne({
         "_id": req.params.id
     }).then((result) => {
         console.log("User deleted timeline post")

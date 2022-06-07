@@ -1,5 +1,5 @@
-function loadEvents() {
-    $.ajax({
+async function loadEvents() {
+    await $.ajax({
         url: "/timeline/getAllEvents",
         type: "get",
         success: (data) => {
@@ -26,26 +26,26 @@ function loadEvents() {
     })
 }
 
-function increaseLike() {
+async function increaseLike() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
-    $.ajax({
+    await $.ajax({
         url: `/timeline/update/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
-    location.reload()
+    window.location.reload(true)
 }
 
-function deletePost() {
+async function deletePost() {
     let timelineId = $(this).parent().attr('id')
     // console.log(timelineId)
-    $.ajax({
+    await $.ajax({
         url: `/timeline/delete/${timelineId}`,
         type: 'get',
         success: result => console.log(result)
     })
-    location.reload()
+    window.location.reload(true)
 }
 
 function setup() {

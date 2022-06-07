@@ -366,11 +366,11 @@ function moveToPage() {
     document.getElementById('currentPage').textContent = `Current Page: ${currentPage}`
 }
 
-function searchTimeline(searchType, input) {
+async function searchTimeline(searchType, input) {
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-    $.ajax({
+    await $.ajax({
         url: "/timeline/insert",
         type: "put",
         data: {
@@ -382,11 +382,11 @@ function searchTimeline(searchType, input) {
     })
 }
 
-function profileTimeline(pokemonId, pokemonName) {
+async function profileTimeline(pokemonId, pokemonName) {
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-    $.ajax({
+    await $.ajax({
         url: "/timeline/insert",
         type: "put",
         data: {

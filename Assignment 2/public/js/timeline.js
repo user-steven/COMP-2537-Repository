@@ -33,7 +33,7 @@ function increaseLike() {
         type: 'get',
         success: result => console.log(result)
     })
-    loadEvents()
+    location.reload()
 }
 
 function deletePost() {
@@ -44,7 +44,7 @@ function deletePost() {
         type: 'get',
         success: result => console.log(result)
     })
-    loadEvents()
+    location.reload()
 }
 
 function setup() {
